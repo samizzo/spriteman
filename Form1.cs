@@ -38,6 +38,23 @@ namespace spriteman
             typeof(Panel).InvokeMember("DoubleBuffered", BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic, null, imagePanel, new object[] { true });
         }
 
+        private Rectangle GetSelectionRectangle()
+        {
+            var size = new Size(selectionCurrentPosition.X - selectionStartPosition.X + 1, selectionCurrentPosition.Y - selectionStartPosition.Y + 1);
+            var rect = new Rectangle(selectionStartPosition, size);
+            return rect;
+        }
+
+        // Return a point in pixel coordinates given a point in panel coordinates.
+        private Point GetPixelPosition(Point point)
+        {
+            int x = (int)((point.X / currentScale) - ((imageOrigin.X / currentScale) - (currentImage.Width * 0.5f)));
+            int y = (int)((point.Y / currentScale) - ((imageOrigin.Y / currentScale) - (currentImage.Height * 0.5f)));
+            x = Math.Max(0, Math.Min(currentImage.Width, x));
+            y = Math.Max(0, Math.Min(currentImage.Height, y));
+            return new Point(x, y);
+        }
+
         private void ResetScale()
         {
             currentScale = 1.0f;
@@ -136,23 +153,6 @@ namespace spriteman
                     }
                 }
             }
-        }
-
-        private Rectangle GetSelectionRectangle()
-        {
-            var size = new Size(selectionCurrentPosition.X - selectionStartPosition.X + 1, selectionCurrentPosition.Y - selectionStartPosition.Y + 1);
-            var rect = new Rectangle(selectionStartPosition, size);
-            return rect;
-        }
-
-        // Return a point in pixel coordinates given a point in panel coordinates.
-        private Point GetPixelPosition(Point point)
-        {
-            int x = (int)((point.X / currentScale) - ((imageOrigin.X / currentScale) - (currentImage.Width * 0.5f)));
-            int y = (int)((point.Y / currentScale) - ((imageOrigin.Y / currentScale) - (currentImage.Height * 0.5f)));
-            x = Math.Max(0, Math.Min(currentImage.Width, x));
-            y = Math.Max(0, Math.Min(currentImage.Height, y));
-            return new Point(x, y);
         }
 
         private void imagePanel_MouseMove(object sender, MouseEventArgs e)
