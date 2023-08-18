@@ -10,6 +10,8 @@ namespace spriteman
 {
     public partial class Form1 : Form, IMessageFilter
     {
+        private const int WM_MOUSEWHEEL = 0x020a;
+
         private SpriteProject spriteProject = new SpriteProject();
         private Image currentImage;
         private float currentScale = 1.0f;
@@ -81,9 +83,9 @@ namespace spriteman
 
         public bool PreFilterMessage(ref Message m)
         {
-            if (m.Msg == 0x20a)
+            if (m.Msg == WM_MOUSEWHEEL)
             {
-                // WM_MOUSEWHEEL, find the control at screen position m.LParam
+                // Find the control at screen position m.LParam
                 Point pos = new Point(m.LParam.ToInt32() & 0xffff, m.LParam.ToInt32() >> 16);
                 IntPtr hWnd = WindowFromPoint(pos);
                 if (hWnd != IntPtr.Zero && hWnd != m.HWnd && Control.FromHandle(hWnd) != null)
