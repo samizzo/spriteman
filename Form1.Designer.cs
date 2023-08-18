@@ -34,8 +34,7 @@
             this.addImageButton = new System.Windows.Forms.Button();
             this.removeImageButton = new System.Windows.Forms.Button();
             this.spritesListBox = new System.Windows.Forms.ListBox();
-            this.removeSpriteButton = new System.Windows.Forms.Button();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.imagePanel = new System.Windows.Forms.Panel();
             this.imagesListBox = new System.Windows.Forms.ListBox();
             this.coords = new System.Windows.Forms.Label();
             this.SuspendLayout();
@@ -89,34 +88,24 @@
             this.spritesListBox.IntegralHeight = false;
             this.spritesListBox.Location = new System.Drawing.Point(12, 170);
             this.spritesListBox.Name = "spritesListBox";
-            this.spritesListBox.Size = new System.Drawing.Size(239, 324);
+            this.spritesListBox.Size = new System.Drawing.Size(239, 111);
             this.spritesListBox.TabIndex = 4;
             // 
-            // removeSpriteButton
+            // imagePanel
             // 
-            this.removeSpriteButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.removeSpriteButton.Location = new System.Drawing.Point(225, 500);
-            this.removeSpriteButton.Name = "removeSpriteButton";
-            this.removeSpriteButton.Size = new System.Drawing.Size(26, 23);
-            this.removeSpriteButton.TabIndex = 5;
-            this.removeSpriteButton.Text = "-";
-            this.removeSpriteButton.UseVisualStyleBackColor = true;
-            // 
-            // panel1
-            // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.imagePanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Location = new System.Drawing.Point(257, 27);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(669, 467);
-            this.panel1.TabIndex = 6;
-            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
-            this.panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseDown);
-            this.panel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseMove);
-            this.panel1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseUp);
+            this.imagePanel.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.imagePanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.imagePanel.Location = new System.Drawing.Point(257, 27);
+            this.imagePanel.Name = "imagePanel";
+            this.imagePanel.Size = new System.Drawing.Size(669, 467);
+            this.imagePanel.TabIndex = 6;
+            this.imagePanel.Paint += new System.Windows.Forms.PaintEventHandler(this.imagePanel_Paint);
+            this.imagePanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.imagePanel_MouseDown);
+            this.imagePanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.imagePanel_MouseMove);
+            this.imagePanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.imagePanel_MouseUp);
             // 
             // imagesListBox
             // 
@@ -143,8 +132,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(938, 530);
             this.Controls.Add(this.coords);
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.removeSpriteButton);
+            this.Controls.Add(this.imagePanel);
             this.Controls.Add(this.spritesListBox);
             this.Controls.Add(this.removeImageButton);
             this.Controls.Add(this.addImageButton);
@@ -155,7 +143,6 @@
             this.Name = "Form1";
             this.Text = "Form1";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
-            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Form1_KeyPress);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyUp);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -170,8 +157,7 @@
         private System.Windows.Forms.Button addImageButton;
         private System.Windows.Forms.Button removeImageButton;
         private System.Windows.Forms.ListBox spritesListBox;
-        private System.Windows.Forms.Button removeSpriteButton;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel imagePanel;
         private System.Windows.Forms.ListBox imagesListBox;
         private System.Windows.Forms.Label coords;
     }

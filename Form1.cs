@@ -27,16 +27,16 @@ namespace spriteman
         public Form1()
         {
             InitializeComponent();
-            panel1.MouseWheel += panel1_MouseWheel;
-            imageOrigin = new Point((int)(panel1.Size.Width * 0.5f), (int)(panel1.Size.Height * 0.5f));
-            typeof(Panel).InvokeMember("DoubleBuffered", BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic, null, panel1, new object[] { true });
+            imagePanel.MouseWheel += imagePanel_MouseWheel;
+            imageOrigin = new Point((int)(imagePanel.Size.Width * 0.5f), (int)(imagePanel.Size.Height * 0.5f));
+            typeof(Panel).InvokeMember("DoubleBuffered", BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic, null, imagePanel, new object[] { true });
         }
 
         private void ResetScale()
         {
             currentScale = 1.0f;
-            imageOrigin = new Point((int)(panel1.Size.Width * 0.5f), (int)(panel1.Size.Height * 0.5f));
-            panel1.Refresh();
+            imageOrigin = new Point((int)(imagePanel.Size.Width * 0.5f), (int)(imagePanel.Size.Height * 0.5f));
+            imagePanel.Refresh();
         }
 
         private void addImageButton_Click(object sender, EventArgs e)
@@ -66,17 +66,17 @@ namespace spriteman
         {
             currentImage = Image.FromFile(spriteProject.Images[imagesListBox.SelectedIndex]);
             currentScale = 1.0f;
-            panel1.Refresh();
-            panel1.Focus();
+            imagePanel.Refresh();
+            imagePanel.Focus();
         }
 
-        private void panel1_MouseWheel(object sender, MouseEventArgs e)
+        private void imagePanel_MouseWheel(object sender, MouseEventArgs e)
         {
             //imageOrigin.X -= (int)((e.Location.X - imageOrigin.X) / currentScale);
             //imageOrigin.Y -= (int)((e.Location.Y - imageOrigin.Y) / currentScale);
             currentScale *= (float)Math.Exp(e.Delta / 1000.0f);
             currentScale = Math.Max(0.1f, currentScale);
-            panel1.Refresh();
+            imagePanel.Refresh();
         }
 
         public bool PreFilterMessage(ref Message m)
@@ -95,7 +95,7 @@ namespace spriteman
             return false;
         }
 
-        private void panel1_Paint(object sender, PaintEventArgs e)
+        private void imagePanel_Paint(object sender, PaintEventArgs e)
         {
             if (currentImage != null)
             {
@@ -122,7 +122,7 @@ namespace spriteman
             }
         }
 
-        private void panel1_MouseMove(object sender, MouseEventArgs e)
+        private void imagePanel_MouseMove(object sender, MouseEventArgs e)
         {
             if (currentImage == null)
                 return;
@@ -140,24 +140,20 @@ namespace spriteman
                 lastMousePosition = e.Location;
                 imageOrigin.X += (int)(deltax);
                 imageOrigin.Y += (int)(deltay);
-                panel1.Refresh();
+                imagePanel.Refresh();
             }
         }
 
-        private void panel1_MouseDown(object sender, MouseEventArgs e)
+        private void imagePanel_MouseDown(object sender, MouseEventArgs e)
         {
             mouseDownDragging = true;
             lastMousePosition = e.Location;
         }
 
-        private void panel1_MouseUp(object sender, MouseEventArgs e)
+        private void imagePanel_MouseUp(object sender, MouseEventArgs e)
         {
             mouseDownDragging = false;
             spaceDown = false;
-        }
-
-        private void Form1_KeyPress(object sender, KeyPressEventArgs e)
-        {
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
