@@ -16,8 +16,10 @@ namespace spriteman
         private Image currentImage;
         private float currentScale = 1.0f;
         private Point lastMousePosition;
+        private Point mouseDownPosition;
         private bool mouseDownDragging;
         private bool spaceDown;
+        private bool selectingSprite;
         private Point imageOrigin = new Point(0, 0);
 
         // P/Invoke declarations
@@ -121,6 +123,18 @@ namespace spriteman
                 e.Graphics.ScaleTransform(currentScale, currentScale, System.Drawing.Drawing2D.MatrixOrder.Append);
                 e.Graphics.TranslateTransform(imageOrigin.X, imageOrigin.Y, System.Drawing.Drawing2D.MatrixOrder.Append);
                 e.Graphics.DrawImage(currentImage, rect);
+
+                if (selectingSprite)
+                {
+                    e.Graphics.ResetTransform();
+                    using (var pen = new Pen(Color.White, 2))
+                    {
+                        pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
+                        var size = new Size(lastMousePosition.X - mouseDownPosition.X, lastMousePosition.Y - mouseDownPosition.Y);
+                        var selectionRect = new Rectangle(mouseDownPosition, size);
+                        e.Graphics.DrawRectangle(pen, selectionRect);
+                    }
+                }
             }
         }
 
@@ -144,18 +158,29 @@ namespace spriteman
                 imageOrigin.Y += (int)(deltay);
                 imagePanel.Refresh();
             }
+            else if (selectingSprite)
+            {
+                lastMousePosition = e.Location;
+                imagePanel.Refresh();
+            }
         }
 
         private void imagePanel_MouseDown(object sender, MouseEventArgs e)
         {
             mouseDownDragging = true;
-            lastMousePosition = e.Location;
+            mouseDownPosition = lastMousePosition = e.Location;
+            selectingSprite = Control.ModifierKeys == Keys.Shift;
         }
 
         private void imagePanel_MouseUp(object sender, MouseEventArgs e)
         {
             mouseDownDragging = false;
             spaceDown = false;
+            if (selectingSprite)
+            {
+                selectingSprite = false;
+                Refresh();
+            }
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
