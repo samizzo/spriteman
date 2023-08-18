@@ -119,11 +119,11 @@
             // coords
             // 
             this.coords.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.coords.Location = new System.Drawing.Point(826, 500);
+            this.coords.Location = new System.Drawing.Point(676, 500);
             this.coords.Name = "coords";
-            this.coords.Size = new System.Drawing.Size(100, 23);
+            this.coords.Size = new System.Drawing.Size(250, 23);
             this.coords.TabIndex = 7;
-            this.coords.Text = "X: 0 Y: 0 W: 0 H: 0";
+            this.coords.Text = "W: 0 H: 0 X: 0 Y: 0";
             this.coords.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // Form1

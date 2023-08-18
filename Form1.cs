@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Windows.Forms;
 
 namespace spriteman
@@ -161,7 +162,6 @@ namespace spriteman
                 return;
 
             var position = GetPixelPosition(e.Location);
-            coords.Text = $"X: {position.X} Y: {position.Y}";
 
             if (mouseDownDragging && spaceDown)
             {
@@ -177,10 +177,23 @@ namespace spriteman
                 selectionCurrentPosition = position;
                 imagePanel.Refresh();
             }
+
+            var text = new StringBuilder();
+            if (selectingSprite)
+            {
+                var rect = GetSelectionRectangle();
+                text.Append($"W:{rect.Width} H:{rect.Height} ");
+            }
+            text.Append($"X:{position.X} Y:{position.Y}");
+            coords.Text = text.ToString();
+            coords.Refresh();
         }
 
         private void imagePanel_MouseDown(object sender, MouseEventArgs e)
         {
+            if (currentImage == null)
+                return;
+
             mouseDownDragging = true;
             mouseDownPosition = lastMousePosition = e.Location;
             selectionStartPosition = GetPixelPosition(e.Location);
@@ -189,6 +202,9 @@ namespace spriteman
 
         private void imagePanel_MouseUp(object sender, MouseEventArgs e)
         {
+            if (currentImage == null)
+                return;
+
             mouseDownDragging = false;
             spaceDown = false;
             if (selectingSprite)
