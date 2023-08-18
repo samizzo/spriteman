@@ -17,6 +17,8 @@ namespace spriteman
         private float currentScale = 1.0f;
         private Point lastMousePosition;
         private Point mouseDownPosition;
+        private Point selectionStartPosition;
+        private Point selectionCurrentPosition;
         private bool mouseDownDragging;
         private bool spaceDown;
         private bool selectingSprite;
@@ -126,16 +128,31 @@ namespace spriteman
 
                 if (selectingSprite)
                 {
-                    e.Graphics.ResetTransform();
-                    using (var pen = new Pen(Color.White, 2))
+                    using (var pen = new Pen(Color.White, 2 / currentScale))
                     {
                         pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
-                        var size = new Size(lastMousePosition.X - mouseDownPosition.X, lastMousePosition.Y - mouseDownPosition.Y);
-                        var selectionRect = new Rectangle(mouseDownPosition, size);
+                        var selectionRect = GetSelectionRectangle();
                         e.Graphics.DrawRectangle(pen, selectionRect);
                     }
                 }
             }
+        }
+
+        private Rectangle GetSelectionRectangle()
+        {
+            var size = new Size(selectionCurrentPosition.X - selectionStartPosition.X + 1, selectionCurrentPosition.Y - selectionStartPosition.Y + 1);
+            var rect = new Rectangle(selectionStartPosition, size);
+            return rect;
+        }
+
+        // Return a point in pixel coordinates given a point in panel coordinates.
+        private Point GetPixelPosition(Point point)
+        {
+            int x = (int)((point.X / currentScale) - ((imageOrigin.X / currentScale) - (currentImage.Width * 0.5f)));
+            int y = (int)((point.Y / currentScale) - ((imageOrigin.Y / currentScale) - (currentImage.Height * 0.5f)));
+            x = Math.Max(0, Math.Min(currentImage.Width, x));
+            y = Math.Max(0, Math.Min(currentImage.Height, y));
+            return new Point(x, y);
         }
 
         private void imagePanel_MouseMove(object sender, MouseEventArgs e)
@@ -143,11 +160,8 @@ namespace spriteman
             if (currentImage == null)
                 return;
 
-            int x = (int)((e.Location.X / currentScale) - ((imageOrigin.X / currentScale) - (currentImage.Width * 0.5f)));
-            int y = (int)((e.Location.Y / currentScale) - ((imageOrigin.Y / currentScale) - (currentImage.Height * 0.5f)));
-            x = Math.Max(0, Math.Min(currentImage.Width, x));
-            y = Math.Max(0, Math.Min(currentImage.Height, y));
-            coords.Text = $"X: {x} Y: {y}";
+            var position = GetPixelPosition(e.Location);
+            coords.Text = $"X: {position.X} Y: {position.Y}";
 
             if (mouseDownDragging && spaceDown)
             {
@@ -160,7 +174,7 @@ namespace spriteman
             }
             else if (selectingSprite)
             {
-                lastMousePosition = e.Location;
+                selectionCurrentPosition = position;
                 imagePanel.Refresh();
             }
         }
@@ -169,6 +183,7 @@ namespace spriteman
         {
             mouseDownDragging = true;
             mouseDownPosition = lastMousePosition = e.Location;
+            selectionStartPosition = GetPixelPosition(e.Location);
             selectingSprite = Control.ModifierKeys == Keys.Shift;
         }
 
