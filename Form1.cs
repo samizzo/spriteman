@@ -85,6 +85,17 @@ namespace spriteman
             imagePanel.Refresh();
         }
 
+        private void AddSprite()
+        {
+            var spriteNameForm = new SpriteNameForm();
+            if (spriteNameForm.ShowDialog() == DialogResult.OK)
+            {
+                var currentImage = imagesListBox.SelectedItem;
+                var rect = GetSelectionRectangle();
+                spriteProject.AddSprite(currentImage.ToString(), spriteNameForm.Name, rect.X, rect.Y, rect.Width, rect.Height);
+            }
+        }
+
         private void addImageButton_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
@@ -231,6 +242,7 @@ namespace spriteman
             spaceDown = false;
             if (selectingSprite)
             {
+                AddSprite();
                 selectingSprite = false;
                 Refresh();
             }
