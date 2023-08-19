@@ -217,6 +217,7 @@ namespace spriteman
                 return;
 
             mouseDownDragging = true;
+            lastMousePosition = e.Location;
             selectionStartPosition = GetPixelPosition(e.Location);
             selectingSprite = Control.ModifierKeys == Keys.Shift;
         }
