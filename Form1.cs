@@ -41,22 +41,29 @@ namespace spriteman
 
         private Rectangle GetSelectionRectangle()
         {
-            int x = selectionStartPosition.X;
-            int y = selectionStartPosition.Y;
-            int w = selectionCurrentPosition.X - selectionStartPosition.X + 1;
-            int h = selectionCurrentPosition.Y - selectionStartPosition.Y + 1;
-            if (w < 0)
+            int x, y, w, h;
+            if (selectionCurrentPosition.X < selectionStartPosition.X)
             {
-                w *= -1;
-                w += 1;
                 x = selectionCurrentPosition.X;
+                w = selectionStartPosition.X - x + 1;
             }
-            if (h < 0)
+            else
             {
-                h *= -1;
-                h += 1;
-                y = selectionCurrentPosition.Y;
+                x = selectionStartPosition.X;
+                w = selectionCurrentPosition.X - x + 1;
             }
+
+            if (selectionCurrentPosition.Y < selectionStartPosition.Y)
+            {
+                y = selectionCurrentPosition.Y;
+                h = selectionStartPosition.Y - y + 1;
+            }
+            else
+            {
+                y = selectionStartPosition.Y;
+                h = selectionCurrentPosition.Y - y + 1;
+            }
+
             var size = new Size(w, h);
             var rect = new Rectangle(new Point(x, y), size);
             return rect;
