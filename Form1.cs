@@ -17,7 +17,6 @@ namespace spriteman
         private Image currentImage;
         private float currentScale = 1.0f;
         private Point lastMousePosition;
-        private Point mouseDownPosition;
         private Point selectionStartPosition;
         private Point selectionCurrentPosition;
         private bool mouseDownDragging;
@@ -218,7 +217,6 @@ namespace spriteman
                 return;
 
             mouseDownDragging = true;
-            mouseDownPosition = lastMousePosition = e.Location;
             selectionStartPosition = GetPixelPosition(e.Location);
             selectingSprite = Control.ModifierKeys == Keys.Shift;
         }
