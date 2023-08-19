@@ -25,6 +25,7 @@ namespace spriteman
         private bool selectingSprite;
         private Point imageOrigin = new Point(0, 0);
         private BindingList<Sprite> sprites;
+        private Sprite selectedSprite;
 
         // P/Invoke declarations
         [DllImport("user32.dll")]
@@ -203,6 +204,15 @@ namespace spriteman
                         e.Graphics.DrawRectangle(pen, selectionRect);
                     }
                 }
+                else if (selectedSprite != null)
+                {
+                    using (var pen = new Pen(Color.White, 2 / currentScale))
+                    {
+                        pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
+                        var selectionRect = new Rectangle(selectedSprite.X, selectedSprite.Y, selectedSprite.Width, selectedSprite.Height);
+                        e.Graphics.DrawRectangle(pen, selectionRect);
+                    }
+                }
             }
         }
 
@@ -224,6 +234,7 @@ namespace spriteman
             }
             else if (selectingSprite)
             {
+                selectedSprite = null;
                 selectionCurrentPosition = position;
                 imagePanel.Refresh();
             }
@@ -261,7 +272,7 @@ namespace spriteman
             {
                 AddSprite();
                 selectingSprite = false;
-                Refresh();
+                imagePanel.Refresh();
             }
         }
 
@@ -286,6 +297,12 @@ namespace spriteman
                 spaceDown = false;
                 e.Handled = true;
             }
+        }
+
+        private void spritesListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            selectedSprite = spritesListBox.SelectedItem as Sprite;
+            imagePanel.Refresh();
         }
     }
 }

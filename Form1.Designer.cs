@@ -90,6 +90,7 @@
             this.spritesListBox.Name = "spritesListBox";
             this.spritesListBox.Size = new System.Drawing.Size(239, 111);
             this.spritesListBox.TabIndex = 4;
+            this.spritesListBox.SelectedIndexChanged += new System.EventHandler(this.spritesListBox_SelectedIndexChanged);
             // 
             // imagePanel
             // 
