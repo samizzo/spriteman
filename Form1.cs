@@ -1,5 +1,6 @@
 ﻿using spriteman.Properties;
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Reflection;
@@ -23,6 +24,7 @@ namespace spriteman
         private bool spaceDown;
         private bool selectingSprite;
         private Point imageOrigin = new Point(0, 0);
+        private BindingList<Sprite> sprites;
 
         // P/Invoke declarations
         [DllImport("user32.dll")]
@@ -36,6 +38,10 @@ namespace spriteman
             imagePanel.MouseWheel += imagePanel_MouseWheel;
             imageOrigin = new Point((int)(imagePanel.Size.Width * 0.5f), (int)(imagePanel.Size.Height * 0.5f));
             typeof(Panel).InvokeMember("DoubleBuffered", BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic, null, imagePanel, new object[] { true });
+
+            sprites = new BindingList<Sprite>(spriteProject.Sprites);
+            spritesListBox.DataSource = sprites;
+            spritesListBox.DisplayMember = "Name";
         }
 
         private Rectangle GetSelectionRectangle()
@@ -92,7 +98,18 @@ namespace spriteman
             {
                 var currentImage = imagesListBox.SelectedItem;
                 var rect = GetSelectionRectangle();
-                spriteProject.AddSprite(currentImage.ToString(), spriteNameForm.Name, rect.X, rect.Y, rect.Width, rect.Height);
+                var image = currentImage.ToString();
+                Debug.Assert(spriteProject.Images.Contains(image));
+                var sprite = new Sprite()
+                {
+                    Image = image,
+                    Name = spriteNameForm.SpriteName,
+                    X = rect.X,
+                    Y = rect.Y,
+                    Width = rect.Width,
+                    Height = rect.Height
+                };
+                sprites.Add(sprite);
             }
         }
 
