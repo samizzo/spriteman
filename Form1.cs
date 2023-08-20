@@ -14,6 +14,15 @@ namespace spriteman
     {
         private const int WM_MOUSEWHEEL = 0x020a;
 
+        enum EdgeDrag
+        {
+            Left,
+            Right,
+            Top,
+            Bottom,
+            None
+        }
+
         private SpriteProject spriteProject = new SpriteProject();
         private Image currentImage;
         private float currentScale = 1.0f;
@@ -25,16 +34,9 @@ namespace spriteman
         private bool selectingSprite;
         private Point imageOrigin = new Point(0, 0);
         private BindingList<Sprite> sprites;
-        private Sprite selectedSprite;
-
-        enum DragHandle
-        {
-            Left,
-            Right,
-            Top,
-            Bottom,
-            None
-        }
+        private Sprite currentSprite;
+        private EdgeDrag currentSpriteEdgeDrag = EdgeDrag.None;
+        private RectangleF currentSpriteRect;
 
         // P/Invoke declarations
         [DllImport("user32.dll")]
@@ -105,33 +107,52 @@ namespace spriteman
         }
 
         // Return a drag handle that the given mouse point is over.
-        private DragHandle GetDragHandle(Point point)
+        private EdgeDrag GetSpriteEdgeDrag(Point point)
         {
-            Debug.Assert(selectedSprite != null);
-            float tlx = selectedSprite.X;
-            float tly = selectedSprite.Y;
-            float brx = tlx + selectedSprite.Width;
-            float bry = tly + selectedSprite.Height;
+            Debug.Assert(currentSprite != null);
+            float tlx = currentSprite.X;
+            float tly = currentSprite.Y;
+            float brx = tlx + currentSprite.Width;
+            float bry = tly + currentSprite.Height ;
             var posf = GetPixelPositionF(point);
             if (posf.X >= (tlx - 0.5f) && posf.X <= (tlx + 0.5f) && posf.Y >= tly && posf.Y < bry)
             {
-                return DragHandle.Left;
+                return EdgeDrag.Left;
             }
             else if (posf.X >= (brx - 0.5f) && posf.X <= (brx + 0.5f) && posf.Y >= tly && posf.Y < bry)
             {
-                return DragHandle.Right;
+                return EdgeDrag.Right;
             }
             else if (posf.Y >= (bry - 0.5f) && posf.Y <= (bry + 0.5f) && posf.X >= tlx && posf.X < brx)
             {
-                return DragHandle.Bottom;
+                return EdgeDrag.Bottom;
             }
             else if (posf.Y >= (tly - 0.5f) && posf.Y <= (tly + 0.5f) && posf.X >= tlx && posf.X < brx)
             {
-                return DragHandle.Top;
+                return EdgeDrag.Top;
             }
             else
             {
-                return DragHandle.None;
+                return EdgeDrag.None;
+            }
+        }
+
+        private void SetMouseCursor(Point point)
+        {
+            var dragHandle = GetSpriteEdgeDrag(point);
+            switch (dragHandle)
+            {
+                case EdgeDrag.Left:
+                case EdgeDrag.Right:
+                    Cursor = Cursors.SizeWE;
+                    break;
+                case EdgeDrag.Top:
+                case EdgeDrag.Bottom:
+                    Cursor = Cursors.SizeNS;
+                    break;
+                default:
+                    Cursor = Cursors.Default;
+                    break;
             }
         }
 
@@ -255,12 +276,12 @@ namespace spriteman
                         e.Graphics.DrawRectangle(pen, selectionRect);
                     }
                 }
-                else if (selectedSprite != null)
+                else if (currentSprite != null)
                 {
                     using (var pen = new Pen(Color.White, 2 / currentScale))
                     {
                         pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
-                        var selectionRect = new Rectangle(selectedSprite.X, selectedSprite.Y, selectedSprite.Width, selectedSprite.Height);
+                        var selectionRect = new Rectangle(currentSprite.X, currentSprite.Y, currentSprite.Width, currentSprite.Height);
                         e.Graphics.DrawRectangle(pen, selectionRect);
                     }
                 }
@@ -274,37 +295,59 @@ namespace spriteman
 
             var position = GetPixelPosition(e.Location);
 
-            if (mouseDownDragging && spaceDown)
+            int deltax = e.Location.X - lastMousePosition.X;
+            int deltay = e.Location.Y - lastMousePosition.Y;
+            lastMousePosition = e.Location;
+
+            if (spaceDown)
             {
-                int deltax = e.Location.X - lastMousePosition.X;
-                int deltay = e.Location.Y - lastMousePosition.Y;
-                lastMousePosition = e.Location;
-                imageOrigin.X += (int)(deltax);
-                imageOrigin.Y += (int)(deltay);
-                imagePanel.Refresh();
+                if (mouseDownDragging)
+                {
+                    imageOrigin.X += (int)(deltax);
+                    imageOrigin.Y += (int)(deltay);
+                    imagePanel.Refresh();
+                }
             }
             else if (selectingSprite)
             {
-                selectedSprite = null;
+                currentSprite = null;
                 selectionCurrentPosition = position;
                 imagePanel.Refresh();
             }
-            else if (selectedSprite != null)
+            else if (currentSprite != null)
             {
-                var dragHandle = GetDragHandle(e.Location);
-                switch (dragHandle)
+                if (mouseDownDragging && currentSpriteEdgeDrag != EdgeDrag.None)
                 {
-                    case DragHandle.Left:
-                    case DragHandle.Right:
-                        Cursor = Cursors.SizeWE;
-                        break;
-                    case DragHandle.Top:
-                    case DragHandle.Bottom:
-                        Cursor = Cursors.SizeNS;
-                        break;
-                    default:
-                        Cursor = Cursors.Default;
-                        break;
+                    var scaledDeltax = deltax / currentScale;
+                    var scaledDeltay = deltay / currentScale;
+                    switch (currentSpriteEdgeDrag)
+                    {
+                        case EdgeDrag.Left:
+                            currentSpriteRect.X += scaledDeltax;
+                            currentSpriteRect.Width -= scaledDeltax;
+                            break;
+                        case EdgeDrag.Right:
+                            currentSpriteRect.Width += scaledDeltax;
+                            break;
+                        case EdgeDrag.Top:
+                            currentSpriteRect.Y += scaledDeltay;
+                            currentSpriteRect.Height -= scaledDeltay;
+                            break;
+                        case EdgeDrag.Bottom:
+                            currentSpriteRect.Height += scaledDeltay;
+                            break;
+                    }
+
+                    currentSprite.X = (int)currentSpriteRect.X;
+                    currentSprite.Y = (int)currentSpriteRect.Y;
+                    currentSprite.Width = (int)Math.Ceiling(currentSpriteRect.Width);
+                    currentSprite.Height = (int)Math.Ceiling(currentSpriteRect.Height);
+
+                    imagePanel.Refresh();
+                }
+                else
+                {
+                    SetMouseCursor(e.Location);
                 }
             }
 
@@ -313,6 +356,10 @@ namespace spriteman
             {
                 var rect = GetSelectionRectangle();
                 text.Append($"W:{rect.Width} H:{rect.Height} ");
+            }
+            else if (currentSprite != null)
+            {
+                text.Append($"W:{currentSprite.Width} H:{currentSprite.Height} ");
             }
             text.Append($"X:{position.X} Y:{position.Y}");
             coords.Text = text.ToString();
@@ -328,6 +375,16 @@ namespace spriteman
             lastMousePosition = e.Location;
             selectionStartPosition = GetPixelPosition(e.Location);
             selectingSprite = Control.ModifierKeys == Keys.Shift;
+            if (currentSprite != null)
+            {
+                currentSpriteEdgeDrag = GetSpriteEdgeDrag(e.Location);
+                if (currentSpriteEdgeDrag != EdgeDrag.None)
+                    currentSpriteRect = new RectangleF(currentSprite.X, currentSprite.Y, currentSprite.Width, currentSprite.Height);
+            }
+            else
+            {
+                currentSpriteEdgeDrag = EdgeDrag.None;
+            }
         }
 
         private void imagePanel_MouseUp(object sender, MouseEventArgs e)
@@ -370,7 +427,7 @@ namespace spriteman
 
         private void spritesListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            selectedSprite = spritesListBox.SelectedItem as Sprite;
+            currentSprite = spritesListBox.SelectedItem as Sprite;
             imagePanel.Refresh();
         }
     }
