@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace spriteman
 {
-    public partial class Form1 : Form, IMessageFilter
+    public partial class MainForm : Form, IMessageFilter
     {
         private const int WM_MOUSEWHEEL = 0x020a;
 
@@ -44,7 +44,7 @@ namespace spriteman
         [DllImport("user32.dll")]
         private static extern IntPtr SendMessage(IntPtr hWnd, int msg, IntPtr wp, IntPtr lp);
 
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
             imagePanel.MouseWheel += imagePanel_MouseWheel;
