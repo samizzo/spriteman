@@ -27,6 +27,15 @@ namespace spriteman
         private BindingList<Sprite> sprites;
         private Sprite selectedSprite;
 
+        enum DragHandle
+        {
+            Left,
+            Right,
+            Top,
+            Bottom,
+            None
+        }
+
         // P/Invoke declarations
         [DllImport("user32.dll")]
         private static extern IntPtr WindowFromPoint(Point pt);
@@ -83,6 +92,47 @@ namespace spriteman
             x = Math.Max(0, Math.Min(currentImage.Width, x));
             y = Math.Max(0, Math.Min(currentImage.Height, y));
             return new Point(x, y);
+        }
+
+        // Return a point in floating point pixel coordinates given a point in panel coordinates.
+        private PointF GetPixelPositionF(Point point)
+        {
+            var x = (point.X / currentScale) - ((imageOrigin.X / currentScale) - (currentImage.Width * 0.5f));
+            var y = (point.Y / currentScale) - ((imageOrigin.Y / currentScale) - (currentImage.Height * 0.5f));
+            x = Math.Max(0, Math.Min(currentImage.Width, x));
+            y = Math.Max(0, Math.Min(currentImage.Height, y));
+            return new PointF(x, y);
+        }
+
+        // Return a drag handle that the given mouse point is over.
+        private DragHandle GetDragHandle(Point point)
+        {
+            Debug.Assert(selectedSprite != null);
+            float tlx = selectedSprite.X;
+            float tly = selectedSprite.Y;
+            float brx = tlx + selectedSprite.Width;
+            float bry = tly + selectedSprite.Height;
+            var posf = GetPixelPositionF(point);
+            if (posf.X >= (tlx - 0.5f) && posf.X <= (tlx + 0.5f) && posf.Y >= tly && posf.Y < bry)
+            {
+                return DragHandle.Left;
+            }
+            else if (posf.X >= (brx - 0.5f) && posf.X <= (brx + 0.5f) && posf.Y >= tly && posf.Y < bry)
+            {
+                return DragHandle.Right;
+            }
+            else if (posf.Y >= (bry - 0.5f) && posf.Y <= (bry + 0.5f) && posf.X >= tlx && posf.X < brx)
+            {
+                return DragHandle.Bottom;
+            }
+            else if (posf.Y >= (tly - 0.5f) && posf.Y <= (tly + 0.5f) && posf.X >= tlx && posf.X < brx)
+            {
+                return DragHandle.Top;
+            }
+            else
+            {
+                return DragHandle.None;
+            }
         }
 
         private void ResetScale()
@@ -238,6 +288,24 @@ namespace spriteman
                 selectedSprite = null;
                 selectionCurrentPosition = position;
                 imagePanel.Refresh();
+            }
+            else if (selectedSprite != null)
+            {
+                var dragHandle = GetDragHandle(e.Location);
+                switch (dragHandle)
+                {
+                    case DragHandle.Left:
+                    case DragHandle.Right:
+                        Cursor = Cursors.SizeWE;
+                        break;
+                    case DragHandle.Top:
+                    case DragHandle.Bottom:
+                        Cursor = Cursors.SizeNS;
+                        break;
+                    default:
+                        Cursor = Cursors.Default;
+                        break;
+                }
             }
 
             var text = new StringBuilder();
