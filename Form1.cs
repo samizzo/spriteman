@@ -182,6 +182,7 @@ namespace spriteman
                     Height = rect.Height
                 };
                 sprites.Add(sprite);
+                // Clear the selected item and re-set it so the selection changed handler is called.
                 spritesListBox.SelectedItem = null;
                 spritesListBox.SelectedItem = sprite;
                 imagePanel.Refresh();
