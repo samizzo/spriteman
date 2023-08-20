@@ -182,7 +182,9 @@ namespace spriteman
                     Height = rect.Height
                 };
                 sprites.Add(sprite);
-                spritesListBox.SelectedIndex = spritesListBox.Items.Count - 1;
+                spritesListBox.SelectedItem = null;
+                spritesListBox.SelectedItem = sprite;
+                imagePanel.Refresh();
             }
         }
 
