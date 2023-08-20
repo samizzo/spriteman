@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Security.Policy;
 using System.Text;
 using System.Windows.Forms;
 
@@ -34,6 +35,7 @@ namespace spriteman
         private bool selectingSprite;
         private Point imageOrigin = new Point(0, 0);
         private BindingList<Sprite> sprites;
+        private BindingList<string> images;
         private Sprite currentSprite;
         private EdgeDrag currentSpriteEdgeDrag = EdgeDrag.None;
         private RectangleF currentSpriteRect;
@@ -51,9 +53,13 @@ namespace spriteman
             imageOrigin = new Point((int)(imagePanel.Size.Width * 0.5f), (int)(imagePanel.Size.Height * 0.5f));
             typeof(Panel).InvokeMember("DoubleBuffered", BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic, null, imagePanel, new object[] { true });
 
+            imagesToolStrip.Renderer = new ToolStripSystemRendererEx();
             sprites = new BindingList<Sprite>(spriteProject.Sprites);
             spritesListBox.DataSource = sprites;
             spritesListBox.DisplayMember = "Name";
+
+            images = new BindingList<string>(spriteProject.Images);
+            imagesListBox.DataSource = images;
         }
 
         private Rectangle GetSelectionRectangle()
@@ -183,41 +189,21 @@ namespace spriteman
                 };
                 sprites.Add(sprite);
                 // Clear the selected item and re-set it so the selection changed handler is called.
-                spritesListBox.SelectedItem = null;
+                spritesListBox.SelectedIndex = -1;
                 spritesListBox.SelectedItem = sprite;
                 imagePanel.Refresh();
             }
         }
 
-        private void addImageButton_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "PNG files (*.png)|*.png|All files (*.*)|*.*";
-            ofd.FilterIndex = 0;
-            if (ofd.ShowDialog() == DialogResult.OK)
-            {
-                var file = ofd.FileName;
-                spriteProject.Images.Add(file);
-                RefreshImageList();
-                imagesListBox.SelectedIndex = spriteProject.Images.Count - 1;
-            }
-        }
-
-        private void RefreshImageList()
-        {
-            imagesListBox.Items.Clear();
-            foreach (var file in spriteProject.Images)
-            {
-                imagesListBox.Items.Add(file);
-            }
-        }
-
         private void imagesListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            currentImage = Image.FromFile(spriteProject.Images[imagesListBox.SelectedIndex]);
-            currentScale = 1.0f;
-            imagePanel.Refresh();
-            imagePanel.Focus();
+            if (imagesListBox.SelectedIndex >= 0)
+            {
+                currentImage = Image.FromFile(spriteProject.Images[imagesListBox.SelectedIndex]);
+                currentScale = 1.0f;
+                imagePanel.Refresh();
+                imagePanel.Focus();
+            }
         }
 
         private void imagePanel_MouseWheel(object sender, MouseEventArgs e)
@@ -432,6 +418,30 @@ namespace spriteman
         {
             currentSprite = spritesListBox.SelectedItem as Sprite;
             imagePanel.Refresh();
+        }
+
+        private void toolStripAddImageButton_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "PNG files (*.png)|*.png|All files (*.*)|*.*";
+            ofd.FilterIndex = 0;
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                var file = ofd.FileName;
+                imagesListBox.SelectedIndex = -1;
+                images.Add(file);
+                // Clear the selected item and re-set it so the selection changed handler is called.
+                imagesListBox.SelectedIndex = -1;
+                imagesListBox.SelectedItem = file;
+            }
+        }
+
+        private void toolStripRemoveImageButton_Click(object sender, EventArgs e)
+        {
+            if (imagesListBox.SelectedIndex >= 0 && imagesListBox.SelectedIndex < spriteProject.Images.Count)
+            {
+                images.RemoveAt(imagesListBox.SelectedIndex);
+            }
         }
     }
 }
