@@ -200,10 +200,14 @@ namespace spriteman
             if (imagesListBox.SelectedIndex >= 0)
             {
                 currentImage = Image.FromFile(spriteProject.Images[imagesListBox.SelectedIndex]);
-                currentScale = 1.0f;
-                imagePanel.Refresh();
-                imagePanel.Focus();
             }
+            else
+            {
+                currentImage = null;
+            }
+
+            currentScale = 1.0f;
+            imagePanel.Refresh();
         }
 
         private void imagePanel_MouseWheel(object sender, MouseEventArgs e)
