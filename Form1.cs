@@ -34,12 +34,14 @@ namespace spriteman
         private bool spaceDown;
         private bool selectingSprite;
         private Point imageOrigin = new Point(0, 0);
-        private BindingList<Sprite> sprites;
-        private BindingList<string> images;
         private Sprite currentSprite;
         private EdgeDrag currentSpriteEdgeDrag = EdgeDrag.None;
         private PointF currentSpriteTopLeft;
         private PointF currentSpriteBottomRight;
+
+        private BindingList<Sprite> sprites;
+        private BindingList<string> images;
+        private BindingSource kvps;
 
         // P/Invoke declarations
         [DllImport("user32.dll")]
@@ -61,6 +63,9 @@ namespace spriteman
 
             images = new BindingList<string>(spriteProject.Images);
             imagesListBox.DataSource = images;
+
+            kvps = new BindingSource();
+            kvpGrid.DataSource = kvps;
         }
 
         private Rectangle GetSelectionRectangle()
@@ -432,7 +437,14 @@ namespace spriteman
         {
             currentSprite = spritesListBox.SelectedItem as Sprite;
             if (currentSprite != null)
+            {
                 imagesListBox.SelectedItem = currentSprite.Image;
+                kvps.DataSource = new BindingList<Sprite.Kvp>(currentSprite.Kvps);
+            }
+            else
+            {
+                kvps.DataSource = new BindingList<Sprite.Kvp>();
+            }
             imagePanel.Refresh();
         }
 

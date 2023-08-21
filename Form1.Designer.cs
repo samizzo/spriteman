@@ -42,8 +42,11 @@
             this.toolStripRemoveImageButton = new System.Windows.Forms.ToolStripButton();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.kvpGrid = new System.Windows.Forms.DataGridView();
+            this.label3 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.imagesToolStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kvpGrid)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -74,9 +77,9 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.spritesListBox.FormattingEnabled = true;
             this.spritesListBox.IntegralHeight = false;
-            this.spritesListBox.Location = new System.Drawing.Point(12, 190);
+            this.spritesListBox.Location = new System.Drawing.Point(12, 182);
             this.spritesListBox.Name = "spritesListBox";
-            this.spritesListBox.Size = new System.Drawing.Size(239, 132);
+            this.spritesListBox.Size = new System.Drawing.Size(239, 140);
             this.spritesListBox.TabIndex = 4;
             this.spritesListBox.SelectedIndexChanged += new System.EventHandler(this.spritesListBox_SelectedIndexChanged);
             // 
@@ -173,17 +176,44 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 174);
+            this.label2.Location = new System.Drawing.Point(12, 166);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(39, 13);
             this.label2.TabIndex = 10;
             this.label2.Text = "Sprites";
+            // 
+            // kvpGrid
+            // 
+            this.kvpGrid.AllowUserToResizeColumns = false;
+            this.kvpGrid.AllowUserToResizeRows = false;
+            this.kvpGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.kvpGrid.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
+            this.kvpGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.kvpGrid.ColumnHeadersVisible = false;
+            this.kvpGrid.Location = new System.Drawing.Point(12, 359);
+            this.kvpGrid.Name = "kvpGrid";
+            this.kvpGrid.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.kvpGrid.ShowEditingIcon = false;
+            this.kvpGrid.Size = new System.Drawing.Size(239, 135);
+            this.kvpGrid.TabIndex = 11;
+            // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(12, 343);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(54, 13);
+            this.label3.TabIndex = 12;
+            this.label3.Text = "Properties";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(938, 530);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.kvpGrid);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.panel1);
@@ -202,6 +232,7 @@
             this.panel1.PerformLayout();
             this.imagesToolStrip.ResumeLayout(false);
             this.imagesToolStrip.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kvpGrid)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -222,6 +253,8 @@
         private System.Windows.Forms.ToolStripButton toolStripRemoveImageButton;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.DataGridView kvpGrid;
+        private System.Windows.Forms.Label label3;
     }
 }
 
