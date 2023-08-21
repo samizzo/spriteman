@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Security.Policy;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
@@ -444,7 +444,13 @@ namespace spriteman
         {
             if (imagesListBox.SelectedIndex >= 0 && imagesListBox.SelectedIndex < spriteProject.Images.Count)
             {
+                var image = imagesListBox.SelectedItem as string;
                 images.RemoveAt(imagesListBox.SelectedIndex);
+
+                // Remove sprites that reference the image.
+                var removeList = sprites.Where(sprite => sprite.Image == image).ToList();
+                foreach (var sprite in removeList)
+                    sprites.Remove(sprite);
             }
         }
     }
