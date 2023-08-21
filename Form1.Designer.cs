@@ -40,6 +40,8 @@
             this.imagesToolStrip = new System.Windows.Forms.ToolStrip();
             this.toolStripAddImageButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripRemoveImageButton = new System.Windows.Forms.ToolStripButton();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.imagesToolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -72,9 +74,9 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.spritesListBox.FormattingEnabled = true;
             this.spritesListBox.IntegralHeight = false;
-            this.spritesListBox.Location = new System.Drawing.Point(12, 170);
+            this.spritesListBox.Location = new System.Drawing.Point(12, 190);
             this.spritesListBox.Name = "spritesListBox";
-            this.spritesListBox.Size = new System.Drawing.Size(239, 111);
+            this.spritesListBox.Size = new System.Drawing.Size(239, 132);
             this.spritesListBox.TabIndex = 4;
             this.spritesListBox.SelectedIndexChanged += new System.EventHandler(this.spritesListBox_SelectedIndexChanged);
             // 
@@ -97,9 +99,10 @@
             // imagesListBox
             // 
             this.imagesListBox.FormattingEnabled = true;
-            this.imagesListBox.Location = new System.Drawing.Point(12, 27);
+            this.imagesListBox.IntegralHeight = false;
+            this.imagesListBox.Location = new System.Drawing.Point(12, 43);
             this.imagesListBox.Name = "imagesListBox";
-            this.imagesListBox.Size = new System.Drawing.Size(239, 108);
+            this.imagesListBox.Size = new System.Drawing.Size(239, 92);
             this.imagesListBox.TabIndex = 1;
             this.imagesListBox.SelectedIndexChanged += new System.EventHandler(this.imagesListBox_SelectedIndexChanged);
             // 
@@ -158,11 +161,31 @@
             this.toolStripRemoveImageButton.Text = "toolStripButton1";
             this.toolStripRemoveImageButton.Click += new System.EventHandler(this.toolStripRemoveImageButton_Click);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 27);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(77, 13);
+            this.label1.TabIndex = 9;
+            this.label1.Text = "Source images";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(12, 174);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(39, 13);
+            this.label2.TabIndex = 10;
+            this.label2.Text = "Sprites";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(938, 530);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.coords);
             this.Controls.Add(this.imagePanel);
@@ -197,6 +220,8 @@
         private System.Windows.Forms.ToolStrip imagesToolStrip;
         private System.Windows.Forms.ToolStripButton toolStripAddImageButton;
         private System.Windows.Forms.ToolStripButton toolStripRemoveImageButton;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
     }
 }
 
