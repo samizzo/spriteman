@@ -44,6 +44,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.kvpGrid = new System.Windows.Forms.DataGridView();
             this.label3 = new System.Windows.Forms.Label();
+            this.Key = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
             this.imagesToolStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kvpGrid)).BeginInit();
@@ -190,6 +192,9 @@
             this.kvpGrid.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
             this.kvpGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.kvpGrid.ColumnHeadersVisible = false;
+            this.kvpGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Key,
+            this.Value});
             this.kvpGrid.Location = new System.Drawing.Point(12, 359);
             this.kvpGrid.Name = "kvpGrid";
             this.kvpGrid.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -206,6 +211,16 @@
             this.label3.Size = new System.Drawing.Size(54, 13);
             this.label3.TabIndex = 12;
             this.label3.Text = "Properties";
+            // 
+            // Key
+            // 
+            this.Key.HeaderText = "Key";
+            this.Key.Name = "Key";
+            // 
+            // Value
+            // 
+            this.Value.HeaderText = "Value";
+            this.Value.Name = "Value";
             // 
             // MainForm
             // 
@@ -255,6 +270,8 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DataGridView kvpGrid;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Key;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Value;
     }
 }
 
