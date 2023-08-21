@@ -334,10 +334,10 @@ namespace spriteman
                             break;
                     }
 
-                    currentSprite.TopLeftX = MathHelpers.Clamp((int)Math.Floor(currentSpriteTopLeft.X), 0, currentImage.Width - 1);
-                    currentSprite.TopLeftY = MathHelpers.Clamp((int)Math.Floor(currentSpriteTopLeft.Y), 0, currentImage.Height - 1);
-                    currentSprite.BottomRightX = MathHelpers.Clamp((int)Math.Ceiling(currentSpriteBottomRight.X), 0, currentImage.Width - 1);
-                    currentSprite.BottomRightY = MathHelpers.Clamp((int)Math.Ceiling(currentSpriteBottomRight.Y), 0, currentImage.Height - 1);
+                    currentSprite.TopLeftX = Math.Min(MathHelpers.Clamp((int)Math.Floor(currentSpriteTopLeft.X), 0, currentImage.Width - 1), currentSprite.BottomRightX);
+                    currentSprite.TopLeftY = Math.Min(MathHelpers.Clamp((int)Math.Floor(currentSpriteTopLeft.Y), 0, currentImage.Height - 1), currentSprite.BottomRightY);
+                    currentSprite.BottomRightX = Math.Max(MathHelpers.Clamp((int)Math.Ceiling(currentSpriteBottomRight.X), 0, currentImage.Width - 1), currentSprite.TopLeftX);
+                    currentSprite.BottomRightY = Math.Max(MathHelpers.Clamp((int)Math.Ceiling(currentSpriteBottomRight.Y), 0, currentImage.Height - 1), currentSprite.TopLeftY);
 
                     imagePanel.Refresh();
                 }
