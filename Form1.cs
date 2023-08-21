@@ -97,8 +97,6 @@ namespace spriteman
         {
             int x = (int)((point.X / currentScale) - ((imageOrigin.X / currentScale) - (currentImage.Width * 0.5f)));
             int y = (int)((point.Y / currentScale) - ((imageOrigin.Y / currentScale) - (currentImage.Height * 0.5f)));
-            x = Math.Max(0, Math.Min(currentImage.Width, x));
-            y = Math.Max(0, Math.Min(currentImage.Height, y));
             return new Point(x, y);
         }
 
@@ -107,8 +105,6 @@ namespace spriteman
         {
             var x = (point.X / currentScale) - ((imageOrigin.X / currentScale) - (currentImage.Width * 0.5f));
             var y = (point.Y / currentScale) - ((imageOrigin.Y / currentScale) - (currentImage.Height * 0.5f));
-            x = Math.Max(0, Math.Min(currentImage.Width, x));
-            y = Math.Max(0, Math.Min(currentImage.Height, y));
             return new PointF(x, y);
         }
 
@@ -119,9 +115,13 @@ namespace spriteman
             float tlx = currentSprite.X;
             float tly = currentSprite.Y;
             float brx = tlx + currentSprite.Width;
-            float bry = tly + currentSprite.Height ;
+            float bry = tly + currentSprite.Height;
             var posf = GetPixelPositionF(point);
-            if (posf.X >= (tlx - 0.5f) && posf.X <= (tlx + 0.5f) && posf.Y >= tly && posf.Y < bry)
+            if (posf.X < 0 || posf.Y < 0 || posf.X >= currentImage.Width || posf.Y >= currentImage.Height)
+            {
+                return EdgeDrag.None;
+            }
+            else if (posf.X >= (tlx - 0.5f) && posf.X <= (tlx + 0.5f) && posf.Y >= tly && posf.Y < bry)
             {
                 return EdgeDrag.Left;
             }
@@ -197,16 +197,19 @@ namespace spriteman
 
         private void imagesListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (imagesListBox.SelectedIndex >= 0)
+            var image = imagesListBox.SelectedIndex >= 0 ? spriteProject.Images[imagesListBox.SelectedIndex] : "";
+            if (!string.IsNullOrEmpty(image))
             {
-                currentImage = Image.FromFile(spriteProject.Images[imagesListBox.SelectedIndex]);
+                currentImage = Image.FromFile(image);
             }
             else
             {
                 currentImage = null;
             }
 
-            spritesListBox.SelectedIndex = -1;
+            var sprite = spritesListBox.SelectedItem as Sprite;
+            if (sprite == null || sprite.Image != image)
+                spritesListBox.SelectedIndex = -1;
             currentScale = 1.0f;
             imagePanel.Refresh();
         }
@@ -288,6 +291,8 @@ namespace spriteman
                 return;
 
             var position = GetPixelPosition(e.Location);
+            position.X = Math.Max(0, Math.Min(currentImage.Width - 1, position.X));
+            position.Y = Math.Max(0, Math.Min(currentImage.Height - 1, position.Y));
 
             int deltax = e.Location.X - lastMousePosition.X;
             int deltay = e.Location.Y - lastMousePosition.Y;
@@ -368,6 +373,8 @@ namespace spriteman
             mouseDownDragging = true;
             lastMousePosition = e.Location;
             selectionStartPosition = GetPixelPosition(e.Location);
+            selectionStartPosition.X = Math.Max(0, Math.Min(currentImage.Width - 1, selectionStartPosition.X));
+            selectionStartPosition.Y = Math.Max(0, Math.Min(currentImage.Height - 1, selectionStartPosition.Y));
             selectingSprite = Control.ModifierKeys == Keys.Shift;
             if (currentSprite != null)
             {
@@ -422,7 +429,9 @@ namespace spriteman
         private void spritesListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             currentSprite = spritesListBox.SelectedItem as Sprite;
-            imagePanel.Refresh();
+            if (currentSprite != null)
+                imagesListBox.SelectedItem = currentSprite.Image;
+            ResetScale();
         }
 
         private void toolStripAddImageButton_Click(object sender, EventArgs e)
