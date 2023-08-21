@@ -206,6 +206,7 @@ namespace spriteman
                 currentImage = null;
             }
 
+            spritesListBox.SelectedIndex = -1;
             currentScale = 1.0f;
             imagePanel.Refresh();
         }
