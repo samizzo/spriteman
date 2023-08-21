@@ -6,10 +6,10 @@ namespace spriteman
     {
         public string Name { get; set; }
         public string Image { get; set; }
-        public int X { get; set; }
-        public int Y { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
+        public int TopLeftX { get; set; }
+        public int TopLeftY { get; set; }
+        public int BottomRightX { get; set; }
+        public int BottomRightY { get; set; }
         public Dictionary<string, string> Kvps { get; set; }
 
         public Sprite()
