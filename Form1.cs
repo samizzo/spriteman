@@ -188,7 +188,7 @@ namespace spriteman
                     Height = rect.Height
                 };
                 sprites.Add(sprite);
-                // Clear the selected item and re-set it so the selection changed handler is called.
+                // Clear the selected item and re-set it so the selection changed handler is called the first time.
                 spritesListBox.SelectedIndex = -1;
                 spritesListBox.SelectedItem = sprite;
                 imagePanel.Refresh();
@@ -210,8 +210,7 @@ namespace spriteman
             var sprite = spritesListBox.SelectedItem as Sprite;
             if (sprite == null || sprite.Image != image)
                 spritesListBox.SelectedIndex = -1;
-            currentScale = 1.0f;
-            imagePanel.Refresh();
+            ResetScale();
         }
 
         private void imagePanel_MouseWheel(object sender, MouseEventArgs e)
@@ -431,7 +430,7 @@ namespace spriteman
             currentSprite = spritesListBox.SelectedItem as Sprite;
             if (currentSprite != null)
                 imagesListBox.SelectedItem = currentSprite.Image;
-            ResetScale();
+            imagePanel.Refresh();
         }
 
         private void toolStripAddImageButton_Click(object sender, EventArgs e)
