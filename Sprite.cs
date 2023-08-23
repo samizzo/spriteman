@@ -1,13 +1,48 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace spriteman
 {
     internal class Sprite
     {
-        public class Kvp
+        public class Kvp : INotifyPropertyChanged
         {
-            public string Key { get; set; }
-            public string Value { get; set; }
+            private string key;
+            public string Key
+            {
+                get => key;
+                set
+                {
+                    if (key != value)
+                    {
+                        key = value;
+                        NotifyPropertyChanged();
+                    }
+                }
+            }
+
+            private string value;
+            public string Value
+            {
+                get => value;
+                set
+                {
+                    if (this.value != value)
+                    {
+                        this.value = value;
+                        NotifyPropertyChanged();
+                    }
+                }
+            }
+
+            public event PropertyChangedEventHandler PropertyChanged;
+
+            private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
 
         public string Name { get; set; }
@@ -21,6 +56,8 @@ namespace spriteman
         public Sprite()
         {
             Kvps = new List<Kvp>();
+            Kvps.Add(new Kvp() { Key = "somekey", Value = "somevalue" });
+            Kvps.Add(new Kvp() { Key = "anothrekey", Value = "anothervalue" });
         }
     }
 }

@@ -42,13 +42,19 @@
             this.toolStripRemoveImageButton = new System.Windows.Forms.ToolStripButton();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.kvpGrid = new System.Windows.Forms.DataGridView();
             this.label3 = new System.Windows.Forms.Label();
-            this.Key = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.kvpListView = new BrightIdeasSoftware.ObjectListView();
+            this.olvColumn1 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColumn2 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.propertiesToolStrip = new System.Windows.Forms.ToolStrip();
+            this.toolStripAddKvpButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripDeleteKvpButton = new System.Windows.Forms.ToolStripButton();
             this.panel1.SuspendLayout();
             this.imagesToolStrip.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kvpGrid)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kvpListView)).BeginInit();
+            this.panel2.SuspendLayout();
+            this.propertiesToolStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -184,24 +190,6 @@
             this.label2.TabIndex = 10;
             this.label2.Text = "Sprites";
             // 
-            // kvpGrid
-            // 
-            this.kvpGrid.AllowUserToResizeColumns = false;
-            this.kvpGrid.AllowUserToResizeRows = false;
-            this.kvpGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.kvpGrid.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
-            this.kvpGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.kvpGrid.ColumnHeadersVisible = false;
-            this.kvpGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Key,
-            this.Value});
-            this.kvpGrid.Location = new System.Drawing.Point(12, 359);
-            this.kvpGrid.Name = "kvpGrid";
-            this.kvpGrid.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.kvpGrid.ShowEditingIcon = false;
-            this.kvpGrid.Size = new System.Drawing.Size(239, 135);
-            this.kvpGrid.TabIndex = 11;
-            // 
             // label3
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -212,23 +200,96 @@
             this.label3.TabIndex = 12;
             this.label3.Text = "Properties";
             // 
-            // Key
+            // kvpListView
             // 
-            this.Key.HeaderText = "Key";
-            this.Key.Name = "Key";
+            this.kvpListView.AllColumns.Add(this.olvColumn1);
+            this.kvpListView.AllColumns.Add(this.olvColumn2);
+            this.kvpListView.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.kvpListView.CellEditActivation = BrightIdeasSoftware.ObjectListView.CellEditActivateMode.DoubleClick;
+            this.kvpListView.CellEditUseWholeCell = false;
+            this.kvpListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olvColumn1,
+            this.olvColumn2});
+            this.kvpListView.Cursor = System.Windows.Forms.Cursors.Default;
+            this.kvpListView.FullRowSelect = true;
+            this.kvpListView.GridLines = true;
+            this.kvpListView.HasCollapsibleGroups = false;
+            this.kvpListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.kvpListView.HideSelection = false;
+            this.kvpListView.Location = new System.Drawing.Point(12, 359);
+            this.kvpListView.Name = "kvpListView";
+            this.kvpListView.ShowGroups = false;
+            this.kvpListView.Size = new System.Drawing.Size(239, 104);
+            this.kvpListView.TabIndex = 0;
+            this.kvpListView.UseCompatibleStateImageBehavior = false;
+            this.kvpListView.UseNotifyPropertyChanged = true;
+            this.kvpListView.View = System.Windows.Forms.View.Details;
             // 
-            // Value
+            // olvColumn1
             // 
-            this.Value.HeaderText = "Value";
-            this.Value.Name = "Value";
+            this.olvColumn1.AspectName = "Key";
+            this.olvColumn1.Text = "Key";
+            this.olvColumn1.Width = 120;
+            // 
+            // olvColumn2
+            // 
+            this.olvColumn2.AspectName = "Value";
+            this.olvColumn2.FillsFreeSpace = true;
+            this.olvColumn2.Text = "Value";
+            // 
+            // panel2
+            // 
+            this.panel2.BackColor = System.Drawing.SystemColors.Control;
+            this.panel2.Controls.Add(this.propertiesToolStrip);
+            this.panel2.Location = new System.Drawing.Point(12, 469);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(239, 22);
+            this.panel2.TabIndex = 13;
+            // 
+            // propertiesToolStrip
+            // 
+            this.propertiesToolStrip.BackColor = System.Drawing.SystemColors.Control;
+            this.propertiesToolStrip.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.propertiesToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.propertiesToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripAddKvpButton,
+            this.toolStripDeleteKvpButton});
+            this.propertiesToolStrip.Location = new System.Drawing.Point(0, 0);
+            this.propertiesToolStrip.Name = "propertiesToolStrip";
+            this.propertiesToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.propertiesToolStrip.Size = new System.Drawing.Size(239, 22);
+            this.propertiesToolStrip.TabIndex = 0;
+            // 
+            // toolStripAddKvpButton
+            // 
+            this.toolStripAddKvpButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripAddKvpButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripAddKvpButton.Image = ((System.Drawing.Image)(resources.GetObject("toolStripAddKvpButton.Image")));
+            this.toolStripAddKvpButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripAddKvpButton.Name = "toolStripAddKvpButton";
+            this.toolStripAddKvpButton.Size = new System.Drawing.Size(23, 19);
+            this.toolStripAddKvpButton.Text = "toolStripButton1";
+            this.toolStripAddKvpButton.Click += new System.EventHandler(this.toolStripAddKvpButton_Click);
+            // 
+            // toolStripDeleteKvpButton
+            // 
+            this.toolStripDeleteKvpButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripDeleteKvpButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripDeleteKvpButton.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDeleteKvpButton.Image")));
+            this.toolStripDeleteKvpButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDeleteKvpButton.Name = "toolStripDeleteKvpButton";
+            this.toolStripDeleteKvpButton.Size = new System.Drawing.Size(23, 19);
+            this.toolStripDeleteKvpButton.Text = "toolStripButton1";
+            this.toolStripDeleteKvpButton.Click += new System.EventHandler(this.toolStripDeleteKvpButton_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(938, 530);
+            this.Controls.Add(this.panel2);
+            this.Controls.Add(this.kvpListView);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.kvpGrid);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.panel1);
@@ -247,7 +308,11 @@
             this.panel1.PerformLayout();
             this.imagesToolStrip.ResumeLayout(false);
             this.imagesToolStrip.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kvpGrid)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kvpListView)).EndInit();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
+            this.propertiesToolStrip.ResumeLayout(false);
+            this.propertiesToolStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -268,10 +333,14 @@
         private System.Windows.Forms.ToolStripButton toolStripRemoveImageButton;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.DataGridView kvpGrid;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Key;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Value;
+        private BrightIdeasSoftware.ObjectListView kvpListView;
+        private BrightIdeasSoftware.OLVColumn olvColumn1;
+        private BrightIdeasSoftware.OLVColumn olvColumn2;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.ToolStrip propertiesToolStrip;
+        private System.Windows.Forms.ToolStripButton toolStripAddKvpButton;
+        private System.Windows.Forms.ToolStripButton toolStripDeleteKvpButton;
     }
 }
 

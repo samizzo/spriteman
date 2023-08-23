@@ -41,7 +41,6 @@ namespace spriteman
 
         private BindingList<Sprite> sprites;
         private BindingList<string> images;
-        private BindingSource kvps;
 
         // P/Invoke declarations
         [DllImport("user32.dll")]
@@ -63,9 +62,13 @@ namespace spriteman
 
             images = new BindingList<string>(spriteProject.Images);
             imagesListBox.DataSource = images;
+        }
 
-            kvps = new BindingSource();
-            kvpGrid.DataSource = kvps;
+        private void RefreshListView()
+        {
+            if (currentSprite == null)
+                return;
+            kvpListView.SetObjects(currentSprite.Kvps);
         }
 
         private Rectangle GetSelectionRectangle()
@@ -437,14 +440,8 @@ namespace spriteman
         {
             currentSprite = spritesListBox.SelectedItem as Sprite;
             if (currentSprite != null)
-            {
                 imagesListBox.SelectedItem = currentSprite.Image;
-                kvps.DataSource = new BindingList<Sprite.Kvp>(currentSprite.Kvps);
-            }
-            else
-            {
-                kvps.DataSource = new BindingList<Sprite.Kvp>();
-            }
+            RefreshListView();
             imagePanel.Refresh();
         }
 
@@ -475,6 +472,25 @@ namespace spriteman
                 var removeList = sprites.Where(sprite => sprite.Image == image).ToList();
                 foreach (var sprite in removeList)
                     sprites.Remove(sprite);
+            }
+        }
+
+        private void toolStripAddKvpButton_Click(object sender, EventArgs e)
+        {
+            if (currentSprite == null)
+                return;
+            currentSprite.Kvps.Add(new Sprite.Kvp() { Key = "key", Value = "value" });
+            RefreshListView();
+        }
+
+        private void toolStripDeleteKvpButton_Click(object sender, EventArgs e)
+        {
+            if (currentSprite == null)
+                return;
+            if (kvpListView.SelectedItem != null)
+            {
+                currentSprite.Kvps.RemoveAt(kvpListView.SelectedIndex);
+                RefreshListView();
             }
         }
     }
