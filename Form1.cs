@@ -56,6 +56,8 @@ namespace spriteman
             typeof(Panel).InvokeMember("DoubleBuffered", BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic, null, imagePanel, new object[] { true });
 
             imagesToolStrip.Renderer = new ToolStripSystemRendererEx();
+            propertiesToolStrip.Renderer = new ToolStripSystemRendererEx();
+
             sprites = new BindingList<Sprite>(spriteProject.Sprites);
             spritesListBox.DataSource = sprites;
             spritesListBox.DisplayMember = "Name";
