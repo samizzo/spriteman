@@ -24,7 +24,7 @@ namespace spriteman
             None
         }
 
-        private SpriteProject spriteProject = new SpriteProject();
+        private SpriteProject currentSpriteProject = null;
         private Image currentImage;
         private float currentScale = 1.0f;
         private Point lastMousePosition;
@@ -51,29 +51,49 @@ namespace spriteman
         public MainForm()
         {
             InitializeComponent();
+
             imagePanel.MouseWheel += imagePanel_MouseWheel;
             imageOrigin = new Point((int)(imagePanel.Size.Width * 0.5f), (int)(imagePanel.Size.Height * 0.5f));
             typeof(Panel).InvokeMember("DoubleBuffered", BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic, null, imagePanel, new object[] { true });
 
             imagesToolStrip.Renderer = new ToolStripSystemRendererEx();
             propertiesToolStrip.Renderer = new ToolStripSystemRendererEx();
-
-            sprites = new BindingList<Sprite>(spriteProject.Sprites);
-            spritesListBox.DataSource = sprites;
             spritesListBox.DisplayMember = "Name";
 
-            images = new BindingList<string>(spriteProject.Images);
-            imagesListBox.DataSource = images;
-
             RefreshToolStrips();
+            SetProject(null);
+        }
+
+        private void SetProject(SpriteProject project)
+        {
+            currentSpriteProject = project;
+            if (project == null)
+            {
+                sprites = new BindingList<Sprite>();
+                images = new BindingList<string>();
+            }
+            else
+            {
+                sprites = new BindingList<Sprite>(currentSpriteProject.Sprites);
+                images = new BindingList<string>(currentSpriteProject.Images);
+            }
+
+            spritesListBox.DataSource = sprites;
+            imagesListBox.DataSource = images;
         }
 
         private void RefreshToolStrips()
         {
             toolStripRemoveImageButton.Enabled = imagesListBox.SelectedIndex != -1;
-            toolStripAddImageButton.Enabled = spriteProject != null;
+            toolStripAddImageButton.Enabled = currentSpriteProject != null;
             toolStripAddKvpButton.Enabled = currentSprite != null;
             toolStripDeleteKvpButton.Enabled = kvpListView.SelectedIndex != -1;
+            imagesListBox.Enabled = currentSpriteProject != null;
+            spritesListBox.Enabled = currentSpriteProject != null;
+
+            newProjectToolStripMenuItem.Enabled = true;
+            openProjectToolStripMenuItem.Enabled = true;
+            saveProjectToolStripMenuItem.Enabled = currentSpriteProject != null;
         }
 
         private void RefreshListView()
@@ -199,7 +219,7 @@ namespace spriteman
                 var currentImage = imagesListBox.SelectedItem;
                 var rect = GetSelectionRectangle();
                 var image = currentImage.ToString();
-                Debug.Assert(spriteProject.Images.Contains(image));
+                Debug.Assert(currentSpriteProject.Images.Contains(image));
                 var sprite = new Sprite()
                 {
                     Image = image,
@@ -220,7 +240,7 @@ namespace spriteman
 
         private void imagesListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var image = imagesListBox.SelectedIndex >= 0 ? spriteProject.Images[imagesListBox.SelectedIndex] : "";
+            var image = imagesListBox.SelectedIndex >= 0 ? currentSpriteProject.Images[imagesListBox.SelectedIndex] : "";
             if (!string.IsNullOrEmpty(image))
             {
                 currentImage = Image.FromFile(image);
@@ -479,7 +499,7 @@ namespace spriteman
 
         private void toolStripRemoveImageButton_Click(object sender, EventArgs e)
         {
-            if (imagesListBox.SelectedIndex >= 0 && imagesListBox.SelectedIndex < spriteProject.Images.Count)
+            if (imagesListBox.SelectedIndex >= 0 && imagesListBox.SelectedIndex < currentSpriteProject.Images.Count)
             {
                 var image = imagesListBox.SelectedItem as string;
                 images.RemoveAt(imagesListBox.SelectedIndex);
@@ -509,6 +529,11 @@ namespace spriteman
                 currentSprite.Kvps.RemoveAt(kvpListView.SelectedIndex);
                 RefreshListView();
             }
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }

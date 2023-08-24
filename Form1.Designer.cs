@@ -30,6 +30,12 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.newProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.spritesListBox = new System.Windows.Forms.ListBox();
@@ -50,6 +56,7 @@
             this.propertiesToolStrip = new System.Windows.Forms.ToolStrip();
             this.toolStripAddKvpButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripDeleteKvpButton = new System.Windows.Forms.ToolStripButton();
+            this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.imagesToolStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kvpListView)).BeginInit();
@@ -59,11 +66,60 @@
             // 
             // menuStrip1
             // 
+            this.menuStrip1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem1});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
             this.menuStrip1.Size = new System.Drawing.Size(938, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem1
+            // 
+            this.fileToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newProjectToolStripMenuItem,
+            this.openProjectToolStripMenuItem,
+            this.saveProjectToolStripMenuItem,
+            this.toolStripMenuItem1,
+            this.exitToolStripMenuItem});
+            this.fileToolStripMenuItem1.Name = "fileToolStripMenuItem1";
+            this.fileToolStripMenuItem1.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem1.Text = "&File";
+            // 
+            // newProjectToolStripMenuItem
+            // 
+            this.newProjectToolStripMenuItem.Name = "newProjectToolStripMenuItem";
+            this.newProjectToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+            this.newProjectToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.newProjectToolStripMenuItem.Text = "&New project";
+            // 
+            // openProjectToolStripMenuItem
+            // 
+            this.openProjectToolStripMenuItem.Name = "openProjectToolStripMenuItem";
+            this.openProjectToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.openProjectToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.openProjectToolStripMenuItem.Text = "&Open project";
+            // 
+            // saveProjectToolStripMenuItem
+            // 
+            this.saveProjectToolStripMenuItem.Name = "saveProjectToolStripMenuItem";
+            this.saveProjectToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.saveProjectToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.saveProjectToolStripMenuItem.Text = "&Save project";
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(183, 6);
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.exitToolStripMenuItem.Text = "E&xit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // fileToolStripMenuItem
             // 
@@ -85,9 +141,9 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.spritesListBox.FormattingEnabled = true;
             this.spritesListBox.IntegralHeight = false;
-            this.spritesListBox.Location = new System.Drawing.Point(12, 182);
+            this.spritesListBox.Location = new System.Drawing.Point(12, 201);
             this.spritesListBox.Name = "spritesListBox";
-            this.spritesListBox.Size = new System.Drawing.Size(239, 140);
+            this.spritesListBox.Size = new System.Drawing.Size(239, 174);
             this.spritesListBox.TabIndex = 4;
             this.spritesListBox.SelectedIndexChanged += new System.EventHandler(this.spritesListBox_SelectedIndexChanged);
             // 
@@ -98,9 +154,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.imagePanel.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.imagePanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.imagePanel.Location = new System.Drawing.Point(257, 27);
+            this.imagePanel.Location = new System.Drawing.Point(257, 52);
             this.imagePanel.Name = "imagePanel";
-            this.imagePanel.Size = new System.Drawing.Size(669, 467);
+            this.imagePanel.Size = new System.Drawing.Size(669, 495);
             this.imagePanel.TabIndex = 6;
             this.imagePanel.Paint += new System.Windows.Forms.PaintEventHandler(this.imagePanel_Paint);
             this.imagePanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.imagePanel_MouseDown);
@@ -111,16 +167,16 @@
             // 
             this.imagesListBox.FormattingEnabled = true;
             this.imagesListBox.IntegralHeight = false;
-            this.imagesListBox.Location = new System.Drawing.Point(12, 43);
+            this.imagesListBox.Location = new System.Drawing.Point(12, 52);
             this.imagesListBox.Name = "imagesListBox";
-            this.imagesListBox.Size = new System.Drawing.Size(239, 92);
+            this.imagesListBox.Size = new System.Drawing.Size(239, 102);
             this.imagesListBox.TabIndex = 1;
             this.imagesListBox.SelectedIndexChanged += new System.EventHandler(this.imagesListBox_SelectedIndexChanged);
             // 
             // coords
             // 
             this.coords.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.coords.Location = new System.Drawing.Point(676, 500);
+            this.coords.Location = new System.Drawing.Point(676, 553);
             this.coords.Name = "coords";
             this.coords.Size = new System.Drawing.Size(250, 23);
             this.coords.TabIndex = 7;
@@ -131,7 +187,7 @@
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.Control;
             this.panel1.Controls.Add(this.imagesToolStrip);
-            this.panel1.Location = new System.Drawing.Point(12, 141);
+            this.panel1.Location = new System.Drawing.Point(12, 160);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(239, 22);
             this.panel1.TabIndex = 8;
@@ -175,7 +231,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 27);
+            this.label1.Location = new System.Drawing.Point(9, 36);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(77, 13);
             this.label1.TabIndex = 9;
@@ -184,7 +240,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 166);
+            this.label2.Location = new System.Drawing.Point(12, 185);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(39, 13);
             this.label2.TabIndex = 10;
@@ -194,7 +250,7 @@
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 343);
+            this.label3.Location = new System.Drawing.Point(12, 396);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(54, 13);
             this.label3.TabIndex = 12;
@@ -216,7 +272,7 @@
             this.kvpListView.HasCollapsibleGroups = false;
             this.kvpListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.kvpListView.HideSelection = false;
-            this.kvpListView.Location = new System.Drawing.Point(12, 359);
+            this.kvpListView.Location = new System.Drawing.Point(12, 412);
             this.kvpListView.Name = "kvpListView";
             this.kvpListView.ShowGroups = false;
             this.kvpListView.Size = new System.Drawing.Size(239, 104);
@@ -242,7 +298,7 @@
             this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.panel2.BackColor = System.Drawing.SystemColors.Control;
             this.panel2.Controls.Add(this.propertiesToolStrip);
-            this.panel2.Location = new System.Drawing.Point(12, 469);
+            this.panel2.Location = new System.Drawing.Point(12, 522);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(239, 22);
             this.panel2.TabIndex = 13;
@@ -287,7 +343,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(938, 530);
+            this.ClientSize = new System.Drawing.Size(938, 583);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.kvpListView);
             this.Controls.Add(this.label3);
@@ -305,6 +361,8 @@
             this.Text = "Spriteman";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyUp);
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.imagesToolStrip.ResumeLayout(false);
@@ -342,6 +400,12 @@
         private System.Windows.Forms.ToolStrip propertiesToolStrip;
         private System.Windows.Forms.ToolStripButton toolStripAddKvpButton;
         private System.Windows.Forms.ToolStripButton toolStripDeleteKvpButton;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem newProjectToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openProjectToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveProjectToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
     }
 }
 
