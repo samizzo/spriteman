@@ -1,10 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace spriteman
 {
     internal class SpriteProject
     {
+        [JsonIgnore]
         public bool Dirty { get; set; }
+
+        [JsonIgnore]
         public string Filename { get; set; }
 
         public List<string> Images { get; }
@@ -19,11 +25,18 @@ namespace spriteman
 
         public void Save()
         {
+            var json = JsonConvert.SerializeObject(this, Formatting.Indented);
+            File.WriteAllText(Filename, json);
+            Dirty = false;
         }
 
-        public static SpriteProject Load()
+        public static SpriteProject Load(string filename)
         {
-            return new SpriteProject();
+            var json = File.ReadAllText(filename);
+            var spriteProject = JsonConvert.DeserializeObject<SpriteProject>(json);
+            spriteProject.Filename = filename;
+            spriteProject.Dirty = false;
+            return spriteProject;
         }
     }
 }

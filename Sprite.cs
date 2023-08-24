@@ -56,8 +56,6 @@ namespace spriteman
         public Sprite()
         {
             Kvps = new List<Kvp>();
-            Kvps.Add(new Kvp() { Key = "somekey", Value = "somevalue" });
-            Kvps.Add(new Kvp() { Key = "anothrekey", Value = "anothervalue" });
         }
     }
 }

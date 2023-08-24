@@ -25,7 +25,9 @@ namespace spriteman
         }
 
         private SpriteProject currentSpriteProject = null;
+        private Sprite currentSprite;
         private Image currentImage;
+
         private float currentScale = 1.0f;
         private Point lastMousePosition;
         private Point selectionStartPosition;
@@ -34,7 +36,6 @@ namespace spriteman
         private bool spaceDown;
         private bool selectingSprite;
         private Point imageOrigin = new Point(0, 0);
-        private Sprite currentSprite;
         private EdgeDrag currentSpriteEdgeDrag = EdgeDrag.None;
         private PointF currentSpriteTopLeft;
         private PointF currentSpriteBottomRight;
@@ -60,13 +61,15 @@ namespace spriteman
             propertiesToolStrip.Renderer = new ToolStripSystemRendererEx();
             spritesListBox.DisplayMember = "Name";
 
-            RefreshToolStrips();
             SetProject(null);
         }
 
         private void SetProject(SpriteProject project)
         {
             currentSpriteProject = project;
+            currentSprite = null;
+            currentImage = null;
+
             if (project == null)
             {
                 sprites = new BindingList<Sprite>();
@@ -80,9 +83,11 @@ namespace spriteman
 
             spritesListBox.DataSource = sprites;
             imagesListBox.DataSource = images;
+            RefreshListView();
+            imagePanel.Refresh();
         }
 
-        private void RefreshToolStrips()
+        private void RefreshControls()
         {
             toolStripRemoveImageButton.Enabled = imagesListBox.SelectedIndex != -1;
             toolStripAddImageButton.Enabled = currentSpriteProject != null;
@@ -94,14 +99,19 @@ namespace spriteman
             newProjectToolStripMenuItem.Enabled = true;
             openProjectToolStripMenuItem.Enabled = true;
             saveProjectToolStripMenuItem.Enabled = currentSpriteProject != null;
+
+            Text = "Spriteman";
+            if (currentSpriteProject != null)
+            {
+                var filename = string.IsNullOrEmpty(currentSpriteProject.Filename) ? "<unsaved>" : currentSpriteProject.Filename;
+                Text += $" - {filename}";
+            }
         }
 
         private void RefreshListView()
         {
-            RefreshToolStrips();
-            if (currentSprite == null)
-                return;
-            kvpListView.SetObjects(currentSprite.Kvps);
+            kvpListView.SetObjects(currentSprite?.Kvps);
+            RefreshControls();
         }
 
         private Rectangle GetSelectionRectangle()
@@ -234,7 +244,7 @@ namespace spriteman
                 spritesListBox.SelectedIndex = -1;
                 spritesListBox.SelectedItem = sprite;
                 imagePanel.Refresh();
-                RefreshToolStrips();
+                RefreshControls();
             }
         }
 
@@ -254,7 +264,7 @@ namespace spriteman
             if (sprite == null || sprite.Image != image)
                 spritesListBox.SelectedIndex = -1;
             ResetScale();
-            RefreshToolStrips();
+            RefreshControls();
         }
 
         private void imagePanel_MouseWheel(object sender, MouseEventArgs e)
@@ -493,7 +503,7 @@ namespace spriteman
                 // Clear the selected item and re-set it so the selection changed handler is called.
                 imagesListBox.SelectedIndex = -1;
                 imagesListBox.SelectedItem = file;
-                RefreshToolStrips();
+                RefreshControls();
             }
         }
 
@@ -508,7 +518,7 @@ namespace spriteman
                 var removeList = sprites.Where(sprite => sprite.Image == image).ToList();
                 foreach (var sprite in removeList)
                     sprites.Remove(sprite);
-                RefreshToolStrips();
+                RefreshControls();
             }
         }
 
@@ -536,7 +546,7 @@ namespace spriteman
             Close();
         }
 
-        private void newProjectToolStripMenuItem_Click(object sender, EventArgs e)
+        private bool CheckSaveProject()
         {
             if (currentSpriteProject != null && currentSpriteProject.Dirty)
             {
@@ -546,15 +556,38 @@ namespace spriteman
                     case DialogResult.Yes:
                         var saved = SaveProject(currentSpriteProject);
                         if (saved)
-                            currentSpriteProject = new SpriteProject();
+                            return true;
                         break;
                     case DialogResult.No:
-                        currentSpriteProject = new SpriteProject();
-                        break;
+                        return true;
                     case DialogResult.Cancel:
                         break;
                 }
             }
+            else
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private void openProjectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (CheckSaveProject())
+            {
+                var ofd = new OpenFileDialog();
+                ofd.Filter = "Sprite Project files (*.prj)|*.prj|All files (*.*)|*.*";
+                ofd.RestoreDirectory = true;
+                if (ofd.ShowDialog() == DialogResult.OK)
+                    SetProject(SpriteProject.Load(ofd.FileName));
+            }
+        }
+
+        private void newProjectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (CheckSaveProject())
+                SetProject(new SpriteProject());
         }
 
         private bool SaveProject(SpriteProject spriteProject)
@@ -580,6 +613,16 @@ namespace spriteman
             }
 
             return true;
+        }
+
+        private void saveProjectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CheckSaveProject();
+        }
+
+        private void kvpListView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            RefreshControls();
         }
     }
 }

@@ -102,6 +102,7 @@
             this.openProjectToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.openProjectToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.openProjectToolStripMenuItem.Text = "&Open project";
+            this.openProjectToolStripMenuItem.Click += new System.EventHandler(this.openProjectToolStripMenuItem_Click);
             // 
             // saveProjectToolStripMenuItem
             // 
@@ -109,6 +110,7 @@
             this.saveProjectToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.saveProjectToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.saveProjectToolStripMenuItem.Text = "&Save project";
+            this.saveProjectToolStripMenuItem.Click += new System.EventHandler(this.saveProjectToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
@@ -281,6 +283,7 @@
             this.kvpListView.UseCompatibleStateImageBehavior = false;
             this.kvpListView.UseNotifyPropertyChanged = true;
             this.kvpListView.View = System.Windows.Forms.View.Details;
+            this.kvpListView.SelectedIndexChanged += new System.EventHandler(this.kvpListView_SelectedIndexChanged);
             // 
             // olvColumn1
             // 
