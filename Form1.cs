@@ -535,5 +535,51 @@ namespace spriteman
         {
             Close();
         }
+
+        private void newProjectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (currentSpriteProject != null && currentSpriteProject.Dirty)
+            {
+                var result = MessageBox.Show("Save current project first?", "Save", MessageBoxButtons.YesNoCancel);
+                switch (result)
+                {
+                    case DialogResult.Yes:
+                        var saved = SaveProject(currentSpriteProject);
+                        if (saved)
+                            currentSpriteProject = new SpriteProject();
+                        break;
+                    case DialogResult.No:
+                        currentSpriteProject = new SpriteProject();
+                        break;
+                    case DialogResult.Cancel:
+                        break;
+                }
+            }
+        }
+
+        private bool SaveProject(SpriteProject spriteProject)
+        {
+            if (string.IsNullOrEmpty(spriteProject.Filename))
+            {
+                var sfd = new SaveFileDialog();
+                sfd.Filter = "Sprite Project files (*.prj)|*.prj|All files (*.*)|*.*";
+                sfd.RestoreDirectory = true;
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    spriteProject.Filename = sfd.FileName;
+                    spriteProject.Save();
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                spriteProject.Save();
+            }
+
+            return true;
+        }
     }
 }
