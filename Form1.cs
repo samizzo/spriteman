@@ -64,10 +64,21 @@ namespace spriteman
 
             images = new BindingList<string>(spriteProject.Images);
             imagesListBox.DataSource = images;
+
+            RefreshToolStrips();
+        }
+
+        private void RefreshToolStrips()
+        {
+            toolStripRemoveImageButton.Enabled = imagesListBox.SelectedIndex != -1;
+            toolStripAddImageButton.Enabled = spriteProject != null;
+            toolStripAddKvpButton.Enabled = currentSprite != null;
+            toolStripDeleteKvpButton.Enabled = kvpListView.SelectedIndex != -1;
         }
 
         private void RefreshListView()
         {
+            RefreshToolStrips();
             if (currentSprite == null)
                 return;
             kvpListView.SetObjects(currentSprite.Kvps);
@@ -203,6 +214,7 @@ namespace spriteman
                 spritesListBox.SelectedIndex = -1;
                 spritesListBox.SelectedItem = sprite;
                 imagePanel.Refresh();
+                RefreshToolStrips();
             }
         }
 
@@ -222,6 +234,7 @@ namespace spriteman
             if (sprite == null || sprite.Image != image)
                 spritesListBox.SelectedIndex = -1;
             ResetScale();
+            RefreshToolStrips();
         }
 
         private void imagePanel_MouseWheel(object sender, MouseEventArgs e)
@@ -443,8 +456,8 @@ namespace spriteman
             currentSprite = spritesListBox.SelectedItem as Sprite;
             if (currentSprite != null)
                 imagesListBox.SelectedItem = currentSprite.Image;
-            RefreshListView();
             imagePanel.Refresh();
+            RefreshListView();
         }
 
         private void toolStripAddImageButton_Click(object sender, EventArgs e)
@@ -460,6 +473,7 @@ namespace spriteman
                 // Clear the selected item and re-set it so the selection changed handler is called.
                 imagesListBox.SelectedIndex = -1;
                 imagesListBox.SelectedItem = file;
+                RefreshToolStrips();
             }
         }
 
@@ -474,6 +488,7 @@ namespace spriteman
                 var removeList = sprites.Where(sprite => sprite.Image == image).ToList();
                 foreach (var sprite in removeList)
                     sprites.Remove(sprite);
+                RefreshToolStrips();
             }
         }
 
