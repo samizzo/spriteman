@@ -577,7 +577,11 @@ namespace spriteman
         private void newProjectToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (CheckSaveProject())
-                SetProject(new SpriteProject());
+            {
+                var project = new SpriteProject();
+                SaveProject(project);
+                SetProject(project);
+            }
         }
 
         private bool SaveProject(SpriteProject spriteProject)
