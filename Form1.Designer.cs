@@ -223,6 +223,7 @@
             this.toolStripAddImageButton.Name = "toolStripAddImageButton";
             this.toolStripAddImageButton.Size = new System.Drawing.Size(23, 19);
             this.toolStripAddImageButton.Text = "toolStripButton1";
+            this.toolStripAddImageButton.ToolTipText = "Add image";
             this.toolStripAddImageButton.Click += new System.EventHandler(this.toolStripAddImageButton_Click);
             // 
             // toolStripRemoveImageButton
@@ -234,6 +235,7 @@
             this.toolStripRemoveImageButton.Name = "toolStripRemoveImageButton";
             this.toolStripRemoveImageButton.Size = new System.Drawing.Size(23, 19);
             this.toolStripRemoveImageButton.Text = "toolStripButton1";
+            this.toolStripRemoveImageButton.ToolTipText = "Remove image";
             this.toolStripRemoveImageButton.Click += new System.EventHandler(this.toolStripRemoveImageButton_Click);
             // 
             // label1
@@ -336,6 +338,7 @@
             this.toolStripAddKvpButton.Name = "toolStripAddKvpButton";
             this.toolStripAddKvpButton.Size = new System.Drawing.Size(23, 19);
             this.toolStripAddKvpButton.Text = "toolStripButton1";
+            this.toolStripAddKvpButton.ToolTipText = "Add kvp";
             this.toolStripAddKvpButton.Click += new System.EventHandler(this.toolStripAddKvpButton_Click);
             // 
             // toolStripDeleteKvpButton
@@ -347,6 +350,7 @@
             this.toolStripDeleteKvpButton.Name = "toolStripDeleteKvpButton";
             this.toolStripDeleteKvpButton.Size = new System.Drawing.Size(23, 19);
             this.toolStripDeleteKvpButton.Text = "toolStripButton1";
+            this.toolStripDeleteKvpButton.ToolTipText = "Remove kvp";
             this.toolStripDeleteKvpButton.Click += new System.EventHandler(this.toolStripDeleteKvpButton_Click);
             // 
             // panel3
@@ -381,6 +385,7 @@
             this.toolStripDeleteSpriteButton.Name = "toolStripDeleteSpriteButton";
             this.toolStripDeleteSpriteButton.Size = new System.Drawing.Size(23, 19);
             this.toolStripDeleteSpriteButton.Text = "toolStripButton1";
+            this.toolStripDeleteSpriteButton.ToolTipText = "Remove sprite";
             this.toolStripDeleteSpriteButton.Click += new System.EventHandler(this.toolStripDeleteSpriteButton_Click);
             // 
             // MainForm
