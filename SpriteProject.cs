@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
@@ -51,9 +52,19 @@ namespace spriteman
             return spriteProject;
         }
 
+        public string GetImageFullPath(string image)
+        {
+            return Path.Combine(Path.GetDirectoryName(Filename), image);
+        }
+
         public void AddImage(string image)
         {
-            Images.Add(image);
+            // Make path relative to the path of the project.
+            var projDir = Path.GetDirectoryName(Filename) + "\\";
+            var root = new Uri(projDir, UriKind.Absolute);
+            var imageFullPath = new Uri(image, UriKind.Absolute);
+            var imageRelativePath = root.MakeRelativeUri(imageFullPath).ToString();
+            Images.Add(imageRelativePath.Replace('/', '\\').ToLower());
         }
 
         public void RemoveImage(string image)

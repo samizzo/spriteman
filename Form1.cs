@@ -76,6 +76,7 @@ namespace spriteman
             {
                 imagesListBox.DataSource = currentSpriteProject.Images;
                 spritesListBox.DataSource = currentSpriteProject.Sprites;
+                imagesListBox.SelectedIndex = 0;
             }
 
             RefreshListView();
@@ -245,7 +246,7 @@ namespace spriteman
             currentImageName = imageName;
             if (!string.IsNullOrEmpty(imageName))
             {
-                currentImage = Image.FromFile(imageName);
+                currentImage = Image.FromFile(currentSpriteProject.GetImageFullPath(imageName));
             }
             else
             {
@@ -492,12 +493,10 @@ namespace spriteman
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 var file = ofd.FileName;
-                imagesListBox.SelectedIndex = -1;
                 currentSpriteProject.AddImage(file);
 
-                // Clear the selected item and re-set it so the selection changed handler is called.
-                imagesListBox.SelectedIndex = -1;
-                imagesListBox.SelectedItem = file;
+                // Select the new image.
+                imagesListBox.SelectedIndex = imagesListBox.Items.Count - 1;
                 RefreshControls();
             }
         }
