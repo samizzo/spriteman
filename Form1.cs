@@ -26,6 +26,7 @@ namespace spriteman
         private SpriteProject currentSpriteProject = null;
         private Sprite currentSprite;
         private Image currentImage;
+        private string currentImageName;
 
         private float currentScale = 1.0f;
         private Point lastMousePosition;
@@ -228,6 +229,7 @@ namespace spriteman
                 var image = currentImage.ToString();
                 Debug.Assert(currentSpriteProject.Images.Contains(image));
                 var sprite = currentSpriteProject.AddSprite(image, spriteNameForm.SpriteName, rect);
+
                 // Clear the selected item and re-set it so the selection changed handler is called the first time.
                 spritesListBox.SelectedIndex = -1;
                 spritesListBox.SelectedItem = sprite;
@@ -238,10 +240,12 @@ namespace spriteman
 
         private void imagesListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var image = imagesListBox.SelectedIndex >= 0 ? currentSpriteProject.Images[imagesListBox.SelectedIndex] : "";
-            if (!string.IsNullOrEmpty(image))
+            var imageName = imagesListBox.SelectedIndex >= 0 ? currentSpriteProject.Images[imagesListBox.SelectedIndex] : "";
+            var imageChanged = currentImageName != imageName;
+            currentImageName = imageName;
+            if (!string.IsNullOrEmpty(imageName))
             {
-                currentImage = Image.FromFile(image);
+                currentImage = Image.FromFile(imageName);
             }
             else
             {
@@ -249,9 +253,11 @@ namespace spriteman
             }
 
             var sprite = spritesListBox.SelectedItem as Sprite;
-            if (sprite == null || sprite.Image != image)
+            if (sprite == null || sprite.Image != imageName)
                 spritesListBox.SelectedIndex = -1;
-            ResetScale();
+
+            if (imageChanged)
+                ResetScale();
             RefreshControls();
         }
 
