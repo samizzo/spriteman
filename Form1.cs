@@ -87,6 +87,7 @@ namespace spriteman
             toolStripAddImageButton.Enabled = currentSpriteProject != null;
             toolStripAddKvpButton.Enabled = currentSprite != null;
             toolStripDeleteKvpButton.Enabled = kvpListView.SelectedIndex != -1;
+            toolStripDeleteSpriteButton.Enabled = currentSprite != null;
             imagesListBox.Enabled = currentSpriteProject != null;
             spritesListBox.Enabled = currentSpriteProject != null;
 
@@ -609,6 +610,12 @@ namespace spriteman
         private void kvpListView_CellEditFinished(object sender, BrightIdeasSoftware.CellEditEventArgs e)
         {
             RefreshControls();
+        }
+
+        private void toolStripDeleteSpriteButton_Click(object sender, EventArgs e)
+        {
+            if (currentSprite != null)
+                currentSpriteProject.RemoveSprite(currentSprite);
         }
     }
 }

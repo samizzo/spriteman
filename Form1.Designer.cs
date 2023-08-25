@@ -56,12 +56,17 @@
             this.propertiesToolStrip = new System.Windows.Forms.ToolStrip();
             this.toolStripAddKvpButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripDeleteKvpButton = new System.Windows.Forms.ToolStripButton();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.spritesToolStrip = new System.Windows.Forms.ToolStrip();
+            this.toolStripDeleteSpriteButton = new System.Windows.Forms.ToolStripButton();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.imagesToolStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kvpListView)).BeginInit();
             this.panel2.SuspendLayout();
             this.propertiesToolStrip.SuspendLayout();
+            this.panel3.SuspendLayout();
+            this.spritesToolStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -146,7 +151,7 @@
             this.spritesListBox.IntegralHeight = false;
             this.spritesListBox.Location = new System.Drawing.Point(12, 201);
             this.spritesListBox.Name = "spritesListBox";
-            this.spritesListBox.Size = new System.Drawing.Size(239, 174);
+            this.spritesListBox.Size = new System.Drawing.Size(239, 164);
             this.spritesListBox.TabIndex = 4;
             this.spritesListBox.SelectedIndexChanged += new System.EventHandler(this.spritesListBox_SelectedIndexChanged);
             // 
@@ -344,11 +349,45 @@
             this.toolStripDeleteKvpButton.Text = "toolStripButton1";
             this.toolStripDeleteKvpButton.Click += new System.EventHandler(this.toolStripDeleteKvpButton_Click);
             // 
+            // panel3
+            // 
+            this.panel3.BackColor = System.Drawing.SystemColors.Control;
+            this.panel3.Controls.Add(this.spritesToolStrip);
+            this.panel3.Location = new System.Drawing.Point(12, 371);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(239, 22);
+            this.panel3.TabIndex = 14;
+            // 
+            // spritesToolStrip
+            // 
+            this.spritesToolStrip.BackColor = System.Drawing.SystemColors.Control;
+            this.spritesToolStrip.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.spritesToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.spritesToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripDeleteSpriteButton});
+            this.spritesToolStrip.Location = new System.Drawing.Point(0, 0);
+            this.spritesToolStrip.Name = "spritesToolStrip";
+            this.spritesToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.spritesToolStrip.Size = new System.Drawing.Size(239, 22);
+            this.spritesToolStrip.TabIndex = 0;
+            // 
+            // toolStripDeleteSpriteButton
+            // 
+            this.toolStripDeleteSpriteButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripDeleteSpriteButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripDeleteSpriteButton.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDeleteSpriteButton.Image")));
+            this.toolStripDeleteSpriteButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDeleteSpriteButton.Name = "toolStripDeleteSpriteButton";
+            this.toolStripDeleteSpriteButton.Size = new System.Drawing.Size(23, 19);
+            this.toolStripDeleteSpriteButton.Text = "toolStripButton1";
+            this.toolStripDeleteSpriteButton.Click += new System.EventHandler(this.toolStripDeleteSpriteButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(938, 583);
+            this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.kvpListView);
             this.Controls.Add(this.label3);
@@ -377,6 +416,10 @@
             this.panel2.PerformLayout();
             this.propertiesToolStrip.ResumeLayout(false);
             this.propertiesToolStrip.PerformLayout();
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
+            this.spritesToolStrip.ResumeLayout(false);
+            this.spritesToolStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -411,6 +454,9 @@
         private System.Windows.Forms.ToolStripMenuItem saveProjectToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.ToolStrip spritesToolStrip;
+        private System.Windows.Forms.ToolStripButton toolStripDeleteSpriteButton;
     }
 }
 
