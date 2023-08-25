@@ -1,6 +1,5 @@
 ﻿using spriteman.Properties;
 using System;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Reflection;
@@ -40,9 +39,6 @@ namespace spriteman
         private PointF currentSpriteTopLeft;
         private PointF currentSpriteBottomRight;
 
-        private BindingList<Sprite> sprites;
-        private BindingList<string> images;
-
         // P/Invoke declarations
         [DllImport("user32.dll")]
         private static extern IntPtr WindowFromPoint(Point pt);
@@ -72,17 +68,15 @@ namespace spriteman
 
             if (project == null)
             {
-                sprites = new BindingList<Sprite>();
-                images = new BindingList<string>();
+                imagesListBox.DataSource = null;
+                spritesListBox.DataSource = null;
             }
             else
             {
-                sprites = new BindingList<Sprite>(currentSpriteProject.Sprites);
-                images = new BindingList<string>(currentSpriteProject.Images);
+                imagesListBox.DataSource = currentSpriteProject.Images;
+                spritesListBox.DataSource = currentSpriteProject.Sprites;
             }
 
-            spritesListBox.DataSource = sprites;
-            imagesListBox.DataSource = images;
             RefreshListView();
             imagePanel.Refresh();
         }
@@ -105,6 +99,8 @@ namespace spriteman
             {
                 var filename = string.IsNullOrEmpty(currentSpriteProject.Filename) ? "<unsaved>" : currentSpriteProject.Filename;
                 Text += $" - {filename}";
+                if (currentSpriteProject.Dirty)
+                    Text += "*";
             }
         }
 
@@ -230,16 +226,7 @@ namespace spriteman
                 var rect = GetSelectionRectangle();
                 var image = currentImage.ToString();
                 Debug.Assert(currentSpriteProject.Images.Contains(image));
-                var sprite = new Sprite()
-                {
-                    Image = image,
-                    Name = spriteNameForm.SpriteName,
-                    TopLeftX = rect.X,
-                    TopLeftY = rect.Y,
-                    BottomRightX = rect.X + rect.Width - 1,
-                    BottomRightY = rect.Y + rect.Height - 1
-                };
-                sprites.Add(sprite);
+                var sprite = currentSpriteProject.AddSprite(image, spriteNameForm.SpriteName, rect);
                 // Clear the selected item and re-set it so the selection changed handler is called the first time.
                 spritesListBox.SelectedIndex = -1;
                 spritesListBox.SelectedItem = sprite;
@@ -499,7 +486,8 @@ namespace spriteman
             {
                 var file = ofd.FileName;
                 imagesListBox.SelectedIndex = -1;
-                images.Add(file);
+                currentSpriteProject.AddImage(file);
+
                 // Clear the selected item and re-set it so the selection changed handler is called.
                 imagesListBox.SelectedIndex = -1;
                 imagesListBox.SelectedItem = file;
@@ -512,12 +500,7 @@ namespace spriteman
             if (imagesListBox.SelectedIndex >= 0 && imagesListBox.SelectedIndex < currentSpriteProject.Images.Count)
             {
                 var image = imagesListBox.SelectedItem as string;
-                images.RemoveAt(imagesListBox.SelectedIndex);
-
-                // Remove sprites that reference the image.
-                var removeList = sprites.Where(sprite => sprite.Image == image).ToList();
-                foreach (var sprite in removeList)
-                    sprites.Remove(sprite);
+                currentSpriteProject.RemoveImage(image);
                 RefreshControls();
             }
         }
@@ -600,27 +583,30 @@ namespace spriteman
                 if (sfd.ShowDialog() == DialogResult.OK)
                 {
                     spriteProject.Filename = sfd.FileName;
-                    spriteProject.Save();
                 }
                 else
                 {
                     return false;
                 }
             }
-            else
-            {
-                spriteProject.Save();
-            }
+
+            spriteProject.Save();
+            RefreshControls();
 
             return true;
         }
 
         private void saveProjectToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            CheckSaveProject();
+            SaveProject(currentSpriteProject);
         }
 
         private void kvpListView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            RefreshControls();
+        }
+
+        private void kvpListView_CellEditFinished(object sender, BrightIdeasSoftware.CellEditEventArgs e)
         {
             RefreshControls();
         }

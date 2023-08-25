@@ -283,6 +283,7 @@
             this.kvpListView.UseCompatibleStateImageBehavior = false;
             this.kvpListView.UseNotifyPropertyChanged = true;
             this.kvpListView.View = System.Windows.Forms.View.Details;
+            this.kvpListView.CellEditFinished += new BrightIdeasSoftware.CellEditEventHandler(this.kvpListView_CellEditFinished);
             this.kvpListView.SelectedIndexChanged += new System.EventHandler(this.kvpListView_SelectedIndexChanged);
             // 
             // olvColumn1

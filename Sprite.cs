@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -51,11 +50,11 @@ namespace spriteman
         public int TopLeftY { get; set; }
         public int BottomRightX { get; set; }
         public int BottomRightY { get; set; }
-        public List<Kvp> Kvps { get; set; }
+        public BindingList<Kvp> Kvps { get; set; }
 
         public Sprite()
         {
-            Kvps = new List<Kvp>();
+            Kvps = new BindingList<Kvp>();
         }
     }
 }
