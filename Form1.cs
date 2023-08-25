@@ -455,6 +455,9 @@ namespace spriteman
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
+            if (kvpListView.IsCellEditing)
+                return;
+
             if (e.KeyCode == Keys.Space)
             {
                 spaceDown = true;
