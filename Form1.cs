@@ -56,6 +56,7 @@ namespace spriteman
 
             imagesToolStrip.Renderer = new ToolStripSystemRendererEx();
             propertiesToolStrip.Renderer = new ToolStripSystemRendererEx();
+            spritesToolStrip.Renderer = new ToolStripSystemRendererEx();
             spritesListBox.DisplayMember = "Name";
 
             SetProject(null);
