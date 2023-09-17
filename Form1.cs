@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Security.Policy;
 
 namespace spriteman
 {
@@ -637,9 +638,13 @@ namespace spriteman
         {
             if (currentSprite != null)
             {
+                spritesListBox.BeginUpdate();
+                var topIndex = spritesListBox.TopIndex;
                 var oldSprite = currentSprite;
                 currentSpriteProject.MoveUp(oldSprite);
                 spritesListBox.SelectedItem = oldSprite;
+                spritesListBox.TopIndex = topIndex;
+                spritesListBox.EndUpdate();
             }
         }
 
@@ -647,9 +652,33 @@ namespace spriteman
         {
             if (currentSprite != null)
             {
+                spritesListBox.BeginUpdate();
+                var topIndex = spritesListBox.TopIndex;
                 var oldSprite = currentSprite;
                 currentSpriteProject.MoveDown(oldSprite);
                 spritesListBox.SelectedItem = oldSprite;
+                spritesListBox.TopIndex = topIndex;
+                spritesListBox.EndUpdate();
+            }
+        }
+
+        private void toolStripCloneButton_Click(object sender, EventArgs e)
+        {
+            if (currentSprite != null)
+            {
+                spritesListBox.BeginUpdate();
+                var rect = new Rectangle(currentSprite.TopLeftX, currentSprite.TopLeftY, currentSprite.BottomRightX - currentSprite.TopLeftX + 1, currentSprite.BottomRightY - currentSprite.TopLeftY + 1);
+                var index = currentSpriteProject.Sprites.IndexOf(currentSprite);
+
+                var topIndex = spritesListBox.TopIndex;
+                var sprite = currentSpriteProject.AddSprite(currentSprite.Image, currentSprite.Name + " (copy)", rect, index + 1);
+                spritesListBox.SelectedItem = sprite;
+                spritesListBox.TopIndex = topIndex;
+
+                spritesListBox.EndUpdate();
+
+                imagePanel.Refresh();
+                RefreshControls();
             }
         }
     }

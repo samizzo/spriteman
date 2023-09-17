@@ -77,7 +77,7 @@ namespace spriteman
                 RemoveSprite(sprite);
         }
 
-        public Sprite AddSprite(string image, string name, Rectangle rectangle)
+        public Sprite AddSprite(string image, string name, Rectangle rectangle, int insertIndex = -1)
         {
             var sprite = new Sprite()
             {
@@ -89,7 +89,14 @@ namespace spriteman
                 BottomRightY = rectangle.Y + rectangle.Height - 1,
             };
             sprite.Kvps.ListChanged += KvpListChanged;
-            Sprites.Add(sprite);
+            if (insertIndex != -1)
+            {
+                Sprites.Insert(insertIndex, sprite);
+            }
+            else
+            {
+                Sprites.Add(sprite);
+            }
             return sprite;
         }
 

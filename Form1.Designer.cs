@@ -61,6 +61,7 @@
             this.toolStripDeleteSpriteButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripMoveUpButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripMoveDownButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripCloneButton = new System.Windows.Forms.ToolStripButton();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.imagesToolStrip.SuspendLayout();
@@ -373,7 +374,8 @@
             this.spritesToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripDeleteSpriteButton,
             this.toolStripMoveUpButton,
-            this.toolStripMoveDownButton});
+            this.toolStripMoveDownButton,
+            this.toolStripCloneButton});
             this.spritesToolStrip.Location = new System.Drawing.Point(0, 0);
             this.spritesToolStrip.Name = "spritesToolStrip";
             this.spritesToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -411,6 +413,17 @@
             this.toolStripMoveDownButton.Size = new System.Drawing.Size(23, 19);
             this.toolStripMoveDownButton.Text = "toolStripButton1";
             this.toolStripMoveDownButton.Click += new System.EventHandler(this.toolStripMoveDownButton_Click);
+            // 
+            // toolStripCloneButton
+            // 
+            this.toolStripCloneButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripCloneButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripCloneButton.Image = ((System.Drawing.Image)(resources.GetObject("toolStripCloneButton.Image")));
+            this.toolStripCloneButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripCloneButton.Name = "toolStripCloneButton";
+            this.toolStripCloneButton.Size = new System.Drawing.Size(23, 19);
+            this.toolStripCloneButton.Text = "toolStripButton1";
+            this.toolStripCloneButton.Click += new System.EventHandler(this.toolStripCloneButton_Click);
             // 
             // MainForm
             // 
@@ -489,6 +502,7 @@
         private System.Windows.Forms.ToolStripButton toolStripDeleteSpriteButton;
         private System.Windows.Forms.ToolStripButton toolStripMoveUpButton;
         private System.Windows.Forms.ToolStripButton toolStripMoveDownButton;
+        private System.Windows.Forms.ToolStripButton toolStripCloneButton;
     }
 }
 
