@@ -98,6 +98,26 @@ namespace spriteman
             Sprites.Remove(sprite);
         }
 
+        public void MoveUp(Sprite sprite)
+        {
+            int index = Sprites.IndexOf(sprite);
+            if (index > 0)
+            {
+                Sprites.Remove(sprite);
+                Sprites.Insert(index - 1, sprite);
+            }
+        }
+
+        public void MoveDown(Sprite sprite)
+        {
+            int index = Sprites.IndexOf(sprite);
+            if (index < Sprites.Count - 1)
+            {
+                Sprites.Remove(sprite);
+                Sprites.Insert(index + 1, sprite);
+            }
+        }
+
         private void ListChanged(object sender, ListChangedEventArgs e)
         {
             Dirty = true;

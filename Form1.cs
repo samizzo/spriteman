@@ -91,6 +91,8 @@ namespace spriteman
             toolStripAddKvpButton.Enabled = currentSprite != null;
             toolStripDeleteKvpButton.Enabled = kvpListView.SelectedIndex != -1;
             toolStripDeleteSpriteButton.Enabled = currentSprite != null;
+            toolStripMoveUpButton.Enabled = currentSprite != null;
+            toolStripMoveDownButton.Enabled = currentSprite != null;
             imagesListBox.Enabled = currentSpriteProject != null;
             spritesListBox.Enabled = currentSpriteProject != null;
 
@@ -629,6 +631,26 @@ namespace spriteman
         {
             if (currentSprite != null)
                 currentSpriteProject.RemoveSprite(currentSprite);
+        }
+
+        private void toolStripMoveUpButton_Click(object sender, EventArgs e)
+        {
+            if (currentSprite != null)
+            {
+                var oldSprite = currentSprite;
+                currentSpriteProject.MoveUp(oldSprite);
+                spritesListBox.SelectedItem = oldSprite;
+            }
+        }
+
+        private void toolStripMoveDownButton_Click(object sender, EventArgs e)
+        {
+            if (currentSprite != null)
+            {
+                var oldSprite = currentSprite;
+                currentSpriteProject.MoveDown(oldSprite);
+                spritesListBox.SelectedItem = oldSprite;
+            }
         }
     }
 }
