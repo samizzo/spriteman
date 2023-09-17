@@ -94,6 +94,7 @@ namespace spriteman
             toolStripDeleteSpriteButton.Enabled = currentSprite != null;
             toolStripMoveUpButton.Enabled = currentSprite != null;
             toolStripMoveDownButton.Enabled = currentSprite != null;
+            toolStripCloneButton.Enabled = currentSprite != null;
             imagesListBox.Enabled = currentSpriteProject != null;
             spritesListBox.Enabled = currentSpriteProject != null;
 
