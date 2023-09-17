@@ -44,13 +44,32 @@ namespace spriteman
             }
         }
 
-        public string Name { get; set; }
+        private string name;
+        public string Name
+        {
+            get => name;
+            set
+            {
+                if (this.name != value)
+                {
+                    this.name = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
         public string Image { get; set; }
         public int TopLeftX { get; set; }
         public int TopLeftY { get; set; }
         public int BottomRightX { get; set; }
         public int BottomRightY { get; set; }
         public BindingList<Kvp> Kvps { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         public Sprite()
         {

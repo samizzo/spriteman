@@ -42,9 +42,10 @@ namespace spriteman
 
             foreach (var sprite in spriteProject.Sprites)
             {
+                sprite.PropertyChanged += spriteProject.PropertyChanged;
                 sprite.Kvps.ListChanged += spriteProject.ListChanged;
                 foreach (var kvp in sprite.Kvps)
-                    kvp.PropertyChanged += spriteProject.Kvp_PropertyChanged;
+                    kvp.PropertyChanged += spriteProject.PropertyChanged;
             }
 
             spriteProject.Dirty = false;
@@ -135,12 +136,12 @@ namespace spriteman
             if (e.ListChangedType == ListChangedType.ItemAdded)
             {
                 var kvp = (Sprite.Kvp)sender;
-                kvp.PropertyChanged += Kvp_PropertyChanged;
+                kvp.PropertyChanged += PropertyChanged;
             }
             Dirty = true;
         }
 
-        private void Kvp_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             Dirty = true;
         }

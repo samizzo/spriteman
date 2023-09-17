@@ -62,6 +62,7 @@
             this.toolStripMoveUpButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripMoveDownButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripCloneButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripRenameButton = new System.Windows.Forms.ToolStripButton();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.imagesToolStrip.SuspendLayout();
@@ -375,7 +376,8 @@
             this.toolStripDeleteSpriteButton,
             this.toolStripMoveUpButton,
             this.toolStripMoveDownButton,
-            this.toolStripCloneButton});
+            this.toolStripCloneButton,
+            this.toolStripRenameButton});
             this.spritesToolStrip.Location = new System.Drawing.Point(0, 0);
             this.spritesToolStrip.Name = "spritesToolStrip";
             this.spritesToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -424,6 +426,17 @@
             this.toolStripCloneButton.Size = new System.Drawing.Size(23, 19);
             this.toolStripCloneButton.Text = "toolStripButton1";
             this.toolStripCloneButton.Click += new System.EventHandler(this.toolStripCloneButton_Click);
+            // 
+            // toolStripRenameButton
+            // 
+            this.toolStripRenameButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripRenameButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripRenameButton.Image = ((System.Drawing.Image)(resources.GetObject("toolStripRenameButton.Image")));
+            this.toolStripRenameButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripRenameButton.Name = "toolStripRenameButton";
+            this.toolStripRenameButton.Size = new System.Drawing.Size(23, 19);
+            this.toolStripRenameButton.Text = "toolStripButton1";
+            this.toolStripRenameButton.Click += new System.EventHandler(this.toolStripRenameButton_Click);
             // 
             // MainForm
             // 
@@ -503,6 +516,7 @@
         private System.Windows.Forms.ToolStripButton toolStripMoveUpButton;
         private System.Windows.Forms.ToolStripButton toolStripMoveDownButton;
         private System.Windows.Forms.ToolStripButton toolStripCloneButton;
+        private System.Windows.Forms.ToolStripButton toolStripRenameButton;
     }
 }
 

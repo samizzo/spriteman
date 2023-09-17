@@ -72,7 +72,7 @@
             this.Controls.Add(this.okButton);
             this.Controls.Add(this.textBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Name = "SpriteNameForm";
+            this.SpriteName = "SpriteNameForm";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

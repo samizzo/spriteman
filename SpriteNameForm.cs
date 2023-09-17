@@ -4,7 +4,11 @@ namespace spriteman
 {
     public partial class SpriteNameForm : Form
     {
-        public string SpriteName { get { return textBox1.Text; } }
+        public string SpriteName
+        {
+            get { return textBox1.Text; }
+            set { textBox1.Text = value; }
+        }
 
         public SpriteNameForm()
         {

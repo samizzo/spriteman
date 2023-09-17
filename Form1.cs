@@ -682,5 +682,21 @@ namespace spriteman
                 RefreshControls();
             }
         }
+
+        private void toolStripRenameButton_Click(object sender, EventArgs e)
+        {
+            if (currentSprite != null)
+            {
+                var spriteNameForm = new SpriteNameForm();
+                spriteNameForm.SpriteName = currentSprite.Name;
+                if (spriteNameForm.ShowDialog() == DialogResult.OK)
+                {
+                    currentSprite.Name = spriteNameForm.SpriteName;
+                    var index = currentSpriteProject.Sprites.IndexOf(currentSprite);
+                    currentSpriteProject.Sprites[index] = currentSprite;
+                    RefreshControls();
+                }
+            }
+        }
     }
 }
