@@ -89,7 +89,8 @@ namespace spriteman
                 BottomRightX = rectangle.X + rectangle.Width - 1,
                 BottomRightY = rectangle.Y + rectangle.Height - 1,
             };
-            sprite.Kvps.ListChanged += KvpListChanged;
+            sprite.PropertyChanged += PropertyChanged;
+            sprite.Kvps.ListChanged += ListChanged;
             if (insertIndex != -1)
             {
                 Sprites.Insert(insertIndex, sprite);
@@ -128,16 +129,6 @@ namespace spriteman
 
         private void ListChanged(object sender, ListChangedEventArgs e)
         {
-            Dirty = true;
-        }
-
-        private void KvpListChanged(object sender, ListChangedEventArgs e)
-        {
-            if (e.ListChangedType == ListChangedType.ItemAdded)
-            {
-                var kvp = (Sprite.Kvp)sender;
-                kvp.PropertyChanged += PropertyChanged;
-            }
             Dirty = true;
         }
 
