@@ -404,6 +404,7 @@
             this.toolStripMoveUpButton.Name = "toolStripMoveUpButton";
             this.toolStripMoveUpButton.Size = new System.Drawing.Size(23, 19);
             this.toolStripMoveUpButton.Text = "toolStripButton1";
+            this.toolStripMoveUpButton.ToolTipText = "Move sprite up";
             this.toolStripMoveUpButton.Click += new System.EventHandler(this.toolStripMoveUpButton_Click);
             // 
             // toolStripMoveDownButton
@@ -414,6 +415,7 @@
             this.toolStripMoveDownButton.Name = "toolStripMoveDownButton";
             this.toolStripMoveDownButton.Size = new System.Drawing.Size(23, 19);
             this.toolStripMoveDownButton.Text = "toolStripButton1";
+            this.toolStripMoveDownButton.ToolTipText = "Move sprite down";
             this.toolStripMoveDownButton.Click += new System.EventHandler(this.toolStripMoveDownButton_Click);
             // 
             // toolStripCloneButton
@@ -425,6 +427,7 @@
             this.toolStripCloneButton.Name = "toolStripCloneButton";
             this.toolStripCloneButton.Size = new System.Drawing.Size(23, 19);
             this.toolStripCloneButton.Text = "toolStripButton1";
+            this.toolStripCloneButton.ToolTipText = "Clone sprite";
             this.toolStripCloneButton.Click += new System.EventHandler(this.toolStripCloneButton_Click);
             // 
             // toolStripRenameButton
@@ -436,6 +439,7 @@
             this.toolStripRenameButton.Name = "toolStripRenameButton";
             this.toolStripRenameButton.Size = new System.Drawing.Size(23, 19);
             this.toolStripRenameButton.Text = "toolStripButton1";
+            this.toolStripRenameButton.ToolTipText = "Rename sprite";
             this.toolStripRenameButton.Click += new System.EventHandler(this.toolStripRenameButton_Click);
             // 
             // MainForm
