@@ -118,6 +118,25 @@ namespace spriteman
             RefreshControls();
         }
 
+        private void RefreshToolbar(Point position)
+        {
+            var text = new StringBuilder();
+            if (selectingSprite)
+            {
+                var rect = GetSelectionRectangle();
+                text.Append($"W:{rect.Width} H:{rect.Height} ");
+            }
+            else if (currentSprite != null)
+            {
+                var width = currentSprite.BottomRightX - currentSprite.TopLeftX + 1;
+                var height = currentSprite.BottomRightY - currentSprite.TopLeftY + 1;
+                text.Append($"Index:{currentSpriteProject.Sprites.IndexOf(currentSprite)} W:{width} H:{height} ");
+            }
+            text.Append($"X:{position.X} Y:{position.Y}");
+            coords.Text = text.ToString();
+            coords.Refresh();
+        }
+
         private Rectangle GetSelectionRectangle()
         {
             int x, y, w, h;
@@ -400,21 +419,7 @@ namespace spriteman
                 }
             }
 
-            var text = new StringBuilder();
-            if (selectingSprite)
-            {
-                var rect = GetSelectionRectangle();
-                text.Append($"W:{rect.Width} H:{rect.Height} ");
-            }
-            else if (currentSprite != null)
-            {
-                var width = currentSprite.BottomRightX - currentSprite.TopLeftX + 1;
-                var height = currentSprite.BottomRightY - currentSprite.TopLeftY + 1;
-                text.Append($"W:{width} H:{height} ");
-            }
-            text.Append($"X:{position.X} Y:{position.Y}");
-            coords.Text = text.ToString();
-            coords.Refresh();
+            RefreshToolbar(position);
         }
 
         private void imagePanel_MouseDown(object sender, MouseEventArgs e)
@@ -491,6 +496,7 @@ namespace spriteman
                 imagesListBox.SelectedItem = currentSprite.Image;
             imagePanel.Refresh();
             RefreshListView();
+            RefreshToolbar(new Point(0, 0));
         }
 
         private void toolStripAddImageButton_Click(object sender, EventArgs e)
